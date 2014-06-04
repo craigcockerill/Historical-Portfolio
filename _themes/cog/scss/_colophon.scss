@@ -1,0 +1,30 @@
+/* $colophon
+-------------------------------------------------- */
+
+#colophon {
+	font-size: 1.25em;
+	line-height: 1.5em;
+
+	h3 {
+		font-family: $alternate;
+		font-size: 1.5em;
+		letter-spacing: 1px;
+	}
+
+	ul {
+		list-style-type: circle;
+		padding-left: 20px;
+	}
+
+	aside {
+
+		p {
+			font-size: 1rem;
+			line-height: 1.5rem;
+		}
+
+		@include media($tablet-portrait) {
+			@include span-columns(6);
+		}
+	}
+}

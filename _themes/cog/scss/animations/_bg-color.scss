@@ -1,0 +1,35 @@
+@-webkit-keyframes bg-color {
+	0% {
+		color: $primary;
+	}
+	25% {
+		color: #186b97;
+	}
+	50% {
+		color: #df8a25;
+	}
+	75% {
+		color: #ee4a1b;
+	}
+	100% {
+		color: $primary;
+	}
+}
+
+@keyframes bg-color {
+	0% {
+		color: $primary;
+	}
+	25% {
+		color: #186b97;
+	}
+	50% {
+		color: #df8a25;
+	}
+	75% {
+		color: #ee4a1b;
+	}
+	100% {
+		color: $primary;
+	}
+}

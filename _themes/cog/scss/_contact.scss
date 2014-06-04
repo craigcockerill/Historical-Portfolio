@@ -1,0 +1,147 @@
+/* $contact
+-------------------------------------------------- */
+
+form {
+	@include span-columns(6);
+
+	@include media($tablet-portrait) {
+		@include span-columns(6);
+	}
+}
+
+input, textarea {
+	width: 100%;
+	margin-bottom: 20px;
+	outline: none;
+	border: 1px solid $primary;
+	font-size: 1.125em;
+	color: $primary;
+	padding: 15px 0 15px 10px;
+	font-weight: $light;
+
+	-webkit-appearance: none;
+	-moz-appearance:    none;
+	appearance:         none;
+
+	@include transition(background, .2s);
+
+
+	&:focus {
+		background: rgba(19, 168, 87, .125);
+	}
+}
+
+textarea {
+	max-width: 100%;
+	height: 125px;
+}
+
+::-webkit-input-placeholder {
+	color: rgba(19, 168, 87, .75);
+}
+
+:-moz-placeholder { /* Firefox 18- */
+	color: rgba(19, 168, 87, .75);
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+	color: rgba(19, 168, 87, .75);
+}
+
+:-ms-input-placeholder {
+	color: rgba(19, 168, 87, .75);
+}
+
+input[type="submit"] {
+	width: 100%;
+	font-size: 1.25em;
+	padding: 10px 0;
+	background: $bg;
+
+	@include transition(all, .2s);
+
+	&:hover {
+		background: $primary-light;
+	}
+}
+
+.error {
+	border: 1px solid #ee4a1b;
+	background: rgba(238, 74, 27, .25);
+	color: #ee4a1b;
+	padding: 10px;
+	margin-bottom: 40px;
+
+	h3 {
+		color: #ee4a1b;
+		font-weight: $light;
+	}
+}
+
+#availablity {
+	font-size: 1.25em;
+	font-weight: $light;
+
+	#available {
+		animation-name:                    available;
+		-webkit-animation-name:            available;
+		animation-duration:                       2s;
+		-webkit-animation-duration:               2s;
+		animation-iteration-count:          infinite;
+		-webkit-animation-iteration-count:  infinite;
+	}
+
+	#not-available {
+		animation-name:                    not-available;
+		-webkit-animation-name:            not-available;
+		animation-duration:                       2s;
+		-webkit-animation-duration:               2s;
+		animation-iteration-count:          infinite;
+		-webkit-animation-iteration-count:  infinite;
+	}
+}
+
+@import "animations/availability";
+
+aside {
+	height: 500px;
+
+	@include span-columns(6);
+	@include omega();
+
+	@include media($tablet-portrait) {
+		@include span-columns(6)
+	}
+
+	#social-list {
+		list-style-type: none;
+		padding: 0;
+
+		li {
+			padding: 15px 0;
+			border-bottom: 1px solid $primary;
+
+			span {
+				width: 60%;
+				display: inline-block;
+
+				@include media($mobile) {
+					font-size: .75em;
+				}
+			}
+
+			a {
+				font-size: 1.25em;
+				margin-left: 20px;
+				opacity: 1;
+				border-bottom: none;
+
+
+				&:hover {
+					border-bottom: none;
+					background: rgba(19, 168, 87, .125);
+				}
+			}
+		}
+	}
+}

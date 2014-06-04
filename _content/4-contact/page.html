@@ -1,0 +1,45 @@
+---
+title: Contact
+_meta_title: Contact | Craig Cockerill | Front End Designer
+_freelance: yes
+---
+
+{{ if {raven:has_errors} }}
+<div class="error">
+	<h3>Something went wrong.</h3>
+
+	{{ raven:errors }}
+
+		{{ missing }}
+		<p>I'm going to need your {{ field }}</p>
+		{{ /missing }}
+
+		{{ invalid }}
+		<p>That isn't how {{ field }}s are done around here</p>
+		{{ /invalid }}
+
+	{{ /raven:errors }}
+</div>
+{{ endif }}
+
+
+{{ raven:form formset="contact" }}
+	<h2>Let's chat.</h2>
+	<input type="text" name="name" placeholder="Name" />
+	<input type="email" name="email" placeholder="Email" />
+	<textarea name="message" placeholder="What's on your mind?"></textarea>
+	<input type="submit" value="Send">
+{{ /raven:form }}
+
+<aside>
+	<h2>I'm currently&hellip;</h2>
+	<h3 id="availablity">{{ if _freelance }}<span id="available">available</span>{{ else }}<span id="not-available">not available</span>{{ endif }} for freelance work.</h3>
+	<h2>I'm sort of social.</h2>
+	<ul id="social-list">
+		<li><span>Engage me on</span><a href="http://twitter.com/craigcockerill">Twitter</a></li>
+		<li><span>Let's connect on</span><a href="http://www.linkedin.com/pub/craig-cockerill/80/7a0/927">LinkedIn</a></li>
+		<li><span>Shoot Hoops on</span><a href="http://dribbble.com/craigcockerill">Dribbble</a></li>
+		<li><span>Watch me screw around on</span><a href="http://codepen.io/craigcockerill">CodePen</a></li>
+		<li><span>Listen to what I listen to on</span><a href="http://www.last.fm/user/ccockerill">last.fm</a></li>
+	</ul>
+</aside>

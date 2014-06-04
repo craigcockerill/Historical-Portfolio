@@ -1,0 +1,66 @@
+{{ theme:partial src="header"}}
+
+	<div id="money-shot" style="background: url('/assets/img/projects/{{ _slug }}/bg-ms-{{ _slug }}.jpg') 50% 0  repeat fixed;
+	background-size: 100% auto;" data-type="background" data-speed="1.5">
+		&nbsp;
+	</div> {{# #money-shot #}}
+
+	<div id="wrap-main">
+
+		<nav id="proj-header" data-type="fixed">
+			<div class="wrap">
+				<h2>{{ title }}</h2>
+				<div id="proj-header-info">
+					<ul id="services">
+						{{ services }}
+						<li {{ if empty }}class="empty"{{ endif }}>{{ service }}</li>
+						{{ /services }}
+					</ul> {{# #services #}}
+					<div id="team" {{ if _team }} class="with" {{ endif }}>
+						{{ if _team }}
+						<h4>Produced with:</h4>
+						<h3>{{ _team }}</h3>
+						{{ else }}
+						&nbsp;
+						{{ endif }}
+						&nbsp;
+					</div> {{# #team #}}
+					<div id="link" {{ if _link }} class="with" {{ endif }}>
+						{{ if _link }}
+						<a href="{{ _link }}">View the Project Here &rarr;</a>
+						{{ else }}
+						&nbsp;
+						{{ endif }}
+					</div> {{# #link #}}
+				</div> {{# #proj-header-info #}}
+			</div> {{# .wrap #}}
+		</nav> {{# #proj-header #}}
+
+		<div class="wrap" id="project-content">
+		{{ if _border }}
+			{{ images }}
+			<figure>
+				<img class="border" src="/assets/img/projects/{{ _slug }}/{{ _slug }}-{{ img_name }}" {{ if alt }}alt="{{ alt }}"{{ else }}alt="{{ caption }}"{{ endif }} />
+				{{ if caption }}
+					<figcaption>{{ caption }}</figcaption>
+				{{ endif }}
+			</figure>
+			{{ /images }}
+		{{ else }}
+			{{ images }}
+			<figure>
+				<img src="/assets/img/projects/{{ _slug }}/{{ _slug }}-{{ img_name }}" {{ if alt }}alt="{{ alt }}"{{ else }}alt="{{ caption }}"{{ endif }} />
+				{{ if caption }}
+					<figcaption>{{ caption }}</figcaption>
+				{{ endif }}
+			</figure>
+			{{ /images }}
+		{{ endif }}
+
+			{{ layout_content }}
+		</div> {{# .wrap #}}
+
+	</div> {{# #wrap-main #}}
+
+
+{{ theme:partial src="footer"}}

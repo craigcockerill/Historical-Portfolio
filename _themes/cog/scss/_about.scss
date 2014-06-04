@@ -1,0 +1,176 @@
+/* $about
+-------------------------------------------------- */
+
+#about {
+
+	.col-2-3 {
+		margin-bottom: 20px;
+	}
+
+	.col-1-3 {
+
+		@include media($tablet-portrait) {
+			@include span-columns(6);
+		}
+	}
+}
+
+
+/* $heading
+------------------------- */
+
+.heading-button {
+	display: block;
+	font-size: 1.25em;
+	padding: 10px;
+	font-weight: $light;
+
+	@include transition(all .2s);
+
+	&:hover {
+		border-bottom: none;
+		background: $primary-light;
+	}
+
+}
+
+
+/* $last.fm
+------------------------- */
+
+#lastfm-container {
+	height: 346px;
+	border: 1px solid $primary;
+
+	.heading-button {
+		border-bottom: 1px solid $primary;
+		margin-bottom: 10px;
+	}
+}
+
+$track-pad: 10px;
+$track-art: 40px;
+$track-height: 20px;
+
+
+#lastfm-feed {
+	margin: 0;
+	padding-left: 0;
+	background: #fff;
+
+	li {
+		list-style-type: none;
+		height: $track-art + $track-pad;
+		width: 100%;
+		margin-top: 0;
+		padding: 0 $track-pad $track-pad $track-pad;
+		border-bottom: 1px solid $primary;
+		margin-bottom: $track-pad;
+		position: relative;
+
+			&:after {
+				content: '';
+				display: block;
+				position: absolute;
+				right: 0;
+				top: 0;
+				width: 40px;
+				height: 40px;
+
+				background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+				background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+				background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+				background: -o-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+				background: -ms-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* IE10+ */
+				background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C */
+			}
+
+		a {
+			width: $track-art;
+			height: $track-art;
+			display: inline-block;
+			background: $bg-stripe;
+			opacity: 1;
+
+			&:hover {
+				border-bottom: none;
+			}
+
+			img {
+				width: $track-art;
+				height: $track-art;
+				opacity: .5;
+				-webkit-backface-visibility: hidden;
+				-moz-backface-visibility:    hidden;
+				-ms-backface-visibility:     hidden;
+				@include transition (opacity .3s);
+
+				&:hover {
+					opacity: 1;
+				}
+			}
+
+		}
+
+		$remaining-width: 265px;
+
+		.track-artist {
+			width: $remaining-width;
+			height: $track-height;
+			display: inline-block;
+			position: absolute;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			padding: 0 0 0 10px;
+			font-weight: $regular;
+
+			@include media($tablet) {
+				width: 191px;
+			}
+
+			@include media($tablet-portrait) {
+				width: 448px;
+			}
+
+			@include media($mobile) {
+				width: 248px;
+			}
+		}
+
+		.track-title {
+			width: $remaining-width;
+			height: $track-height;
+			display: inline-block;
+			position: absolute;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			margin-top: 20px;
+			padding: 0 0 0 10px;
+
+			@include media($tablet) {
+				width: 191px;
+			}
+
+			@include media($tablet-portrait) {
+				width: 448px;
+			}
+
+			@include media($mobile) {
+				width: 248px;
+			}
+
+			a {
+				font-size: .8em;
+				width: 100%;
+				background: none;
+				opacity: .5;
+
+				&:hover {
+					opacity: 1;
+				}
+			}
+		}
+
+	}
+}
+

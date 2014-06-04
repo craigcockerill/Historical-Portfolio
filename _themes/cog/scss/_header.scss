@@ -1,0 +1,141 @@
+/* $header
+-------------------------------------------------- */
+
+header {
+	padding: 30px 0 15px 0;
+}
+
+#name-link {
+	width: 200px;
+	display: inline-block;
+	font-family: $alternate;
+	text-decoration: none;
+	opacity: 1;
+	font-size: 1.75em;
+	line-height: 1.5em;
+	letter-spacing: 1px;
+	-webkit-font-smoothing: antialiased;
+
+	animation-name:                    bg-color;
+	-webkit-animation-name:            bg-color;
+	animation-duration:                     20s;
+	-webkit-animation-duration:             20s;
+	animation-iteration-count:         infinite;
+	-webkit-animation-iteration-count: infinite;
+
+
+	&:hover {
+		opacity: .75;
+		background: none;
+		border-bottom: none;
+	}
+}
+
+
+
+/* $navigation
+------------------------- */
+
+.ss-rows {
+	width: 20px;
+	height: 20px;
+	margin-top: 15px;
+	font-size: 1.25em;
+	line-height: 1em;
+	color: $primary;
+	float: right;
+	cursor: pointer;
+	display: none;
+
+
+	@include media($tablet-portrait) {
+		display: inline-block;
+	}
+}
+
+
+#nav-main {
+	list-style-type: none;
+	padding: 0;
+	display: inline-block;
+	float: right;
+	display: inline-block;
+
+	@include media($tablet-portrait) {
+		display: none;
+		width: 101%;
+		position: absolute;
+		background: $bg;
+		top: 70px;
+		left: -.3%;
+		z-index: 10000;
+	}
+
+	li {
+		display: inline-block;
+		margin-right: 30px;
+
+		&:last-of-type {
+			margin-right: 0;
+		}
+
+		&:first-of-type {
+
+			@include media($tablet-portrait) {
+				border-top: 1px solid $primary;
+			}
+		}
+
+		@include media($tablet-portrait) {
+			width: 100%;
+			border-bottom: 1px solid $primary;
+		}
+
+		a {
+			text-decoration: none;
+			text-transform: uppercase;
+			font-weight: $regular;
+			font-size: .9em;
+			color: $primary;
+			letter-spacing: 1px;
+			border-bottom: 1px solid transparent;
+			-webkit-transition: opacity .2s, border .2s;
+
+
+			&:hover {
+				border-bottom: 1px solid $primary;
+				background: none;
+
+				@include media($tablet-portrait) {
+					background: $primary;
+					color: #fff;
+				}
+			}
+
+			&.current {
+				border-bottom: 1px solid $primary;
+
+
+				@include media($tablet-portrait) {
+					border-bottom: 1px solid transparent;
+					background: $primary;
+					color: #fff;
+				}
+			}
+
+
+			@include media($tablet-portrait) {
+				width: 100%;
+				display: block;
+				padding: 10px 0;
+				opacity: 1;
+
+				font-size: 1.25em;
+				text-align: center;
+			}
+		}
+	}
+
+}
+
+@import "animations/bg-color";
