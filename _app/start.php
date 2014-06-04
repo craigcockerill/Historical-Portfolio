@@ -12,8 +12,11 @@
 */
 $config = Statamic::loadAllConfigs();
 
+$config['_cookies.secret_key'] = Cookie::getSecretKey();
+
 $config['log_enabled'] = TRUE;
 $config['log.level'] = Log::convert_log_level($config['_log_level']);
+$config['whoops.editor'] = 'sublime';
 $config['log.writer'] = new Statamic_Logwriter(
     array(
         'path' => $config['_log_file_path'],
@@ -47,7 +50,22 @@ date_default_timezone_set(Helper::pick($config['_timezone'], @date_default_timez
 
 $app = new \Slim\Slim(array_merge($config, array('view' => new Statamic_View)));
 
+// Initialize Whoops middleware
+$app->add(new \Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware);
+
+// Pass Statamic config to Slim
 $app->config = $config;
+
+/*
+|--------------------------------------------------------------------------
+| Localization Initialization
+|--------------------------------------------------------------------------
+|
+| Starts up translations for any in-code language messages that need it
+|
+*/
+
+Localization::initialize();
 
 /*
 |--------------------------------------------------------------------------
@@ -68,9 +86,9 @@ Statamic::processVanityURLs($config);
 |
 */
 
-$app->add(new \Slim\Middleware\SessionCookie(
-        array('expires' => $config['_cookies.lifetime']))
-);
+session_cache_limiter(false);
+session_start();
+
 
 /*
 |--------------------------------------------------------------------------
@@ -101,11 +119,12 @@ Statamic::setDefaultTags();
 |--------------------------------------------------------------------------
 | Caching
 |--------------------------------------------------------------------------
-|
+|gt
 | Look for updated content to cache
 |
 */
 Cache::update();
+//Cache::dump();
 
 /*
 |--------------------------------------------------------------------------

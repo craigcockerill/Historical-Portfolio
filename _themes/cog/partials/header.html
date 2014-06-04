@@ -2,11 +2,11 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>{{ if _meta_title }} {{ _meta_title }} {{ else }} {{ _site_name }} {{ endif }}</title>
+	<title>{{ if title }} {{ title }} | {{ _site_name }} {{ else }} {{ _site_name }} {{ endif }}</title>
 
 	<meta name="viewport" content="initial-scale=1, user-scalable=no">
-	<meta name="description" content="Craig Cockerill is a web designer &amp; front-end developer living in Grand Rapids." />
-	<meta name="keywords" content="craig, cockerill, craig cockerill, craigcockerill, design, web, web design, front-end, development, front-end development, web development, cms, custom, wordpress, statamic, expressionengine, craft, information architecture, information, architecture, ia, ui, ux, user interface, user experience, strategy" />
+	<meta name="description" content="Craig Cockerill is a UI Engineer living in Palo Alto, CA." />
+	<meta name="keywords" content="craig, cockerill, craig cockerill, craigcockerill, designer, engineer, ui, ux, ui engineer, design, palo alto" />
 	<meta name="robots" content="index,follow,archive" />
 
 
@@ -16,15 +16,19 @@
 
 	<link rel="stylesheet" href="{{ theme:css }}" />
 
-	<script type="text/javascript">
-	  (function() {
-	    var config = {
-	      kitId: 'hhw3nru',
-	      scriptTimeout: 3000
-	    };
-	    var h=document.getElementsByTagName("html")[0];h.className+=" wf-loading";var t=setTimeout(function(){h.className=h.className.replace(/(\s|^)wf-loading(\s|$)/g," ");h.className+=" wf-inactive"},config.scriptTimeout);var tk=document.createElement("script"),d=false;tk.src='//use.typekit.net/'+config.kitId+'.js';tk.type="text/javascript";tk.async="true";tk.onload=tk.onreadystatechange=function(){var a=this.readyState;if(d||a&&a!="complete"&&a!="loaded")return;d=true;clearTimeout(t);try{Typekit.load(config)}catch(b){}};var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(tk,s)
-	  })();
-	</script>
+<script type="text/javascript">
+  WebFontConfig = {
+    google: { families: [ 'Cantarell:400,700,400italic,700italic:latin' ] }
+  };
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+      '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+  })(); </script>
 
 	<script type="text/javascript">
 
@@ -66,10 +70,10 @@
 					{{ else }}
 					<a href="/">
 					{{ endif }}
-						Work
+						Home
 					</a>
 				</li>
-				{{ nav from="/" max_depth="1" exclude="work|colophon" }}
+				{{ nav from="/" max_depth="1" exclude="work|colophon|blog" }}
 				<li>
 					<a href="{{ url }}" {{ if is_current }} class="current" {{ endif }}>
 						{{ title }}

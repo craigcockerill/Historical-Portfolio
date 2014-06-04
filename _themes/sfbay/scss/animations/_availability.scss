@@ -1,0 +1,47 @@
+@-webkit-keyframes available {
+	0% {
+		color: rgba(19, 168, 87, 1);
+	}
+	50% {
+		color: rgba(19, 168, 87, .5);
+	}
+	100% {
+		color: rgba(19, 168, 87, 1);
+	}
+}
+
+@keyframes available {
+	0% {
+		color: rgba(19, 168, 87, 1);
+	}
+	50% {
+		color: rgba(19, 168, 87, .5);
+	}
+	100% {
+		color: rgba(19, 168, 87, 1);
+	}
+}
+
+@-webkit-keyframes not-available {
+	0% {
+		color: rgba(238, 47, 40, 1);
+	}
+	50% {
+		color: rgba(238, 47, 40, .5);
+	}
+	100% {
+		color: rgba(238, 47, 40, 1);
+	}
+}
+
+@keyframes not-available {
+	0% {
+		color: rgba(238, 47, 40, 1);
+	}
+	50% {
+		color: rgba(238, 47, 40, .5);
+	}
+	100% {
+		color: rgba(238, 47, 40, 1);
+	}
+}

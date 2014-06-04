@@ -1,35 +1,63 @@
-@-webkit-keyframes bg-color {
+@-webkit-keyframes type-color {
 	0% {
 		color: $primary;
 	}
-	25% {
-		color: #186b97;
+	20% {
+		color: #066d36;
 	}
-	50% {
-		color: #df8a25;
+	40% {
+		color: #2a7e51;
 	}
-	75% {
-		color: #ee4a1b;
+	60% {
+		color: #47d388;
+	}
+	80% {
+		color: #6cd39c;
 	}
 	100% {
 		color: $primary;
 	}
 }
 
-@keyframes bg-color {
+@keyframes type-color {
 	0% {
 		color: $primary;
 	}
-	25% {
-		color: #186b97;
+	20% {
+		color: #066d36;
 	}
-	50% {
-		color: #df8a25;
+	40% {
+		color: #2a7e51;
 	}
-	75% {
-		color: #ee4a1b;
+	60% {
+		color: #47d388;
+	}
+	80% {
+		color: #6cd39c;
 	}
 	100% {
 		color: $primary;
+	}
+}
+
+
+@-webkit-keyframes bg-color {
+	0% {
+		background: $primary;
+	}
+	20% {
+		background: #066d36;
+	}
+	40% {
+		background: #2a7e51;
+	}
+	60% {
+		background: #47d388;
+	}
+	80% {
+		background: #6cd39c;
+	}
+	100% {
+		background: $primary;
 	}
 }

@@ -142,9 +142,46 @@ class Email
                 */
 
                 $email = new PHPMailer(true);
-                $email->IsMAIL();
-                $email->CharSet = 'UTF-8';
 
+                // SMTP
+                if (array_get($attributes, 'smtp', false)) {
+                    
+                    $email->isSMTP();
+
+                    if ($smtp_host = array_get($attributes, 'smtp:host', false)) {
+                        $email->Host = $smtp_host;
+                    }
+
+                    if ($smtp_secure = array_get($attributes, 'smtp:secure', false)) {
+                        $email->SMTPSecure = $smtp_secure;
+                    }
+
+                    if ($smtp_port = array_get($attributes, 'smtp:port', false)) {
+                        $email->Port = $smtp_port;
+                    }
+
+                    if (array_get($attributes, 'smtp:auth', false) === TRUE) {
+                        $email->SMTPAuth = TTRUE;
+                    }
+
+                    if ($smtp_username = array_get($attributes, 'smtp:username', false)) {
+                        $email->Username = $smtp_username;
+                    }
+
+                    if ($smtp_password = array_get($attributes, 'smtp:password', false)) {
+                        $email->Password = $smtp_password;
+                    }
+
+                // SENDMAIL
+                } elseif (array_get($attributes, 'sendmail', false)) {
+                    $email->isSendmail();
+
+                // PHP MAIL
+                } else {
+                    $email->IsMAIL();
+                }
+
+                $email->CharSet = 'UTF-8';
                 $email->AddAddress($attributes['to']);
                 $email->From     = $attributes['from'];
                 $email->FromName = $attributes['from'];

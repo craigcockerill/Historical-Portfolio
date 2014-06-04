@@ -133,18 +133,54 @@ function d($value){
     echo "</pre>";
 }
 
+
 /**
- * Return the value of the given item.
- *
- * If the given item is a Closure the result of the Closure will be returned.
- *
- * @deprecated  Use Helper::resolveValue() instead
- *
- * @param  mixed  $value
- * @return mixed
+ * Autoload core classes from Statamic
+ * 
+ * @param string  $class  Name of the class to load  
+ * @return bool
  */
-function value($value)
-{
-    Log::warn("Use of value() is deprecated. Use Helper::resolveValue() instead.", "core", "Statamic_Helper");
-    return Helper::resolveValue($value);
+function autoload_statamic($class) {
+    // define a list of possible locations
+    $locations = array(
+        APP_PATH . '/core/api/',
+        APP_PATH . '/core/extend/',
+        APP_PATH . '/core/content/',
+        APP_PATH . '/core/members/',
+        APP_PATH . '/core/',
+        APP_PATH . '/core/bundles/',
+        BASE_PATH . '/_add-ons/'
+    );
+    
+    $addon_types = array(
+        'Plugin'    => 'pi',
+        'Fieldtype' => 'ft',
+        'Modifier'  => 'mod',
+        'Hooks'     => 'hooks',
+        'Tasks'     => 'tasks',
+        'API'       => 'api'
+    );
+    
+    // loop through known locations looking for files
+    foreach ($locations as $location) {
+        if (file_exists($location . strtolower($class) . ".php")) {
+            require_once $location . strtolower($class) . ".php";
+            return true;
+        } elseif (file_exists($location . ucwords($class) . ".php")) {
+            require_once $location . "Statamic_" . $class . ".php";
+            return true;
+        } elseif (file_exists($location . strtolower(str_replace("Statamic_", "", $class)) . ".php")) {
+            require_once $location . strtolower(str_replace("Statamic_", "", $class)) . ".php";
+            return true;
+        } elseif (strpos($class, "_") !== false) {
+            list($addon_type, $addon_name) = explode("_", $class, 2);
+            
+            if (!isset($addon_types[$addon_type])) {
+                continue;
+            } elseif (file_exists($location . $addon_name . "/" . $addon_types[$addon_type] . "." . $addon_name . ".php")) {
+                require_once $location . $addon_name . "/" . $addon_types[$addon_type] . "." . $addon_name . ".php";
+                return true;
+            }
+        }
+    }
 }

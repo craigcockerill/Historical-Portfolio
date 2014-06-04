@@ -1,0 +1,319 @@
+/* $projects
+-------------------------------------------------- */
+
+/* $projects-list
+------------------------- */
+
+#projects {
+	padding: 0;
+
+	li {
+		background: $bg-stripe;
+		height: 200px;
+		margin-bottom: 2.35765%;
+
+		-webkit-user-select: none;  /* Chrome all / Safari all */
+		   -moz-user-select: none;     /* Firefox all */
+			-ms-user-select: none;      /* IE 10+ */
+
+		@include span-columns(4);
+		@include omega(3n);
+
+		@include media($tablet-portrait) {
+			margin-bottom: 4.82916%;
+
+			@include span-columns(3);
+			@include omega(2n);
+
+			&:nth-of-type(3) {
+				margin-right:  4.82916%;
+			}
+		}
+
+
+		@include media($mobile) {
+			@include span-columns(2);
+			@include omega();
+		}
+
+		a {
+			opacity: 0;
+			background: rgba(19, 168, 87, 0.75);
+			width: 100%;
+			height: 100%;
+			padding-top: 30%;
+			display: block;
+			text-align: center;
+			font-weight: $light;
+			letter-spacing: 3px;
+			color: $bg;
+
+			&:hover {
+				border-bottom: none;
+				opacity: 1;
+			}
+		}
+	}
+}
+
+
+/* $projects-header
+------------------------- */
+
+#money-shot {
+	height: 600px;
+	width: 95%;
+	margin: 20px auto 0;
+
+	@include media($tablet) {
+		height: 400px;
+	}
+
+	@include media($tablet-portrait) {
+		height: 200px;
+	}
+
+	@include media($mobile) {
+		height: 125px;
+		background-position: top left;
+	}
+}
+
+$proj-header-height: 80px;
+
+#proj-header {
+	position: absolute;
+	height: $proj-header-height;
+	width: 100%;
+	margin: 0 auto;
+	top: 0;
+	color: $primary;
+
+	&.fixed {
+		position: fixed;
+	}
+
+	.wrap {
+		position: relative;
+		height: $proj-header-height;
+		border-bottom: 1px solid $primary;
+
+		h2 {
+			display: inline-block;
+			height: 100%;
+			font-weight: $regular;
+			line-height: 3.25em;
+			margin: 0;
+			padding: 0 20px;
+			border-right: 1px solid #13a857;
+
+			@include media($tablet-portrait) {
+				font-size: 1em;
+				line-height: 2em;
+				width: 100%;
+				height: 30px;
+				display: block;
+				border-right: none;
+				border-bottom: 1px solid $primary;
+			}
+
+			@include media($mobile) {
+				padding: 0 10px;
+			}
+		}
+
+
+		#proj-header-info {
+			height: $proj-header-height;
+			width: 50%;
+			display: inline-block;
+			float: right;
+			border-left: 1px solid $primary;
+
+			@include media($tablet) {
+				font-size: .9em;
+			}
+
+			@include media($tablet-portrait) {
+				width: 100%;
+				float: none;
+				border-left: none;
+				height: 60px;
+				height: $proj-header-height - 30px;
+			}
+
+
+		}
+
+		#services {
+			width: 100%;
+			list-style-type: none;
+			padding: 0;
+			margin: 0;
+			border-bottom: 1px solid $primary;
+
+			li {
+				width: 25%;
+				margin: 0;
+				text-align: center;
+				font-size: .75em;
+				font-weight: $light;
+				text-transform: upper-case;
+				display: inline-block;
+				border-right: 1px solid $primary;
+
+				&.empty {
+					background: $bg-stripe;
+				}
+
+				&:nth-of-type(n+2) {
+					margin-left: -4px;
+				}
+
+				&:nth-of-type(4) {
+					border-right: none;
+				}
+
+			}
+
+		} /* #services */
+
+		#team {
+			width: 50%;
+			height: 53px;
+			display: inline-block;
+			border-right: 1px solid $primary;
+			background: $bg-stripe;
+			float: left;
+
+			@include media($tablet-portrait) {
+				height: 23px;
+			}
+
+			h4 {
+				font-size: .5em;
+				font-weight: $light;
+				text-transform: lowercase;
+				letter-spacing: 1px;
+				margin: 0;
+				padding-left: 10px;
+				display: block;
+
+				@include media($tablet-portrait) {
+					display: inline-block;
+				}
+
+				@include media($mobile) {
+					display: none;
+				}
+			}
+
+			h3 {
+				font-size: 1em;
+				margin: -4px 0 0;
+				padding-left: 9px;
+
+				@include media($tablet-portrait) {
+					display: inline-block;
+					padding-left: 0;
+					font-size: .75em;
+				}
+
+				@include media($mobile) {
+					padding-left: 10px;
+				}
+			}
+
+			&.with {
+				background: transparent;
+			}
+
+		} /* #team */
+
+		#link {
+			width: 50%;
+			height: 53px;
+			display: inline-block;
+			background: $bg-stripe;
+			-webkit-user-select: none;  /* Chrome all / Safari all */
+			   -moz-user-select: none;     /* Firefox all */
+				-ms-user-select: none;      /* IE 10+ */
+
+			@include media($tablet-portrait) {
+				height: 23px;
+			}
+
+			a {
+				width: 100%;
+				padding: 15px;
+				font-size: 1em;
+				text-align: center;
+				display: block;
+
+				@include media($tablet-portrait) {
+					font-size: .75em;
+					padding: 0;
+				}
+
+				&:hover {
+					border-bottom: none;
+					background: $primary-light;
+				}
+			}
+
+			&.with {
+				background: transparent;
+			}
+
+		} /* #team */
+
+	} /* #proj-header.wrap */
+
+} /* #proj-header */
+
+#wrap-main {
+	position: relative;
+	padding-top: 8em;
+	padding-bottom: 20px;
+	width: 100%;
+}
+
+
+/* $project content
+------------------------- */
+
+#project-content {
+
+	figure {
+		width: 100%;
+		margin-top: 1.5em;
+
+		img {
+			width: 100%;
+			display: inline-block;
+
+			&.border {
+				border: 1px solid rgba(19, 168, 87, .075);
+			}
+		}
+
+		&:first-of-type {
+			margin-top: 0;
+		}
+	}
+
+	figcaption {
+		font-size: .75em;
+		display: inline-block;
+	}
+
+	p {
+		font-size: .9em;
+		@include span-columns(4 of 12);
+		@include omega(3);
+
+		@include media($tablet-portrait) {
+			@include fill-parent();
+		}
+	}
+}

@@ -1,0 +1,40 @@
+	</section> {{# End Section Page Wrap #}}
+
+	<footer>
+		<div class="wrap">
+			<h6>{{ _site_name }} | Palo Alto, CA</h6>
+<!-- 			<ul id="nav-footer">
+				<li>
+					{{ if ! segment_1 }}
+					<a href="#" class="current">
+					{{ else }}
+					<a href="/">
+					{{ endif }}
+						Home
+					</a>
+				</li>
+				{{ nav from="/" max_depth="1" exclude="work|blog" }}
+				<li>
+					<a href="{{ url }}" {{ if is_current }} class="current" {{ endif }}>
+						{{ title }}
+					</a>
+				</li>
+				{{ /nav }}
+			</ul> {{# End Nav Footer #}} -->
+			<a href="/colophon">Colophon</a>
+		</div> {{# End Header Wrap #}}
+		</div>
+	</footer> {{# End Site Footer #}}
+
+</body> {{# End Site Body #}}
+<link rel="stylesheet" href="{{ theme:asset src="webfonts/ss-s/ss-s.css" }}" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script src="{{ theme:js src="functions"}}"></script>
+<script src="{{ theme:js src="cog" }}"></script>
+{{ if _js }}
+{{ _js }}
+<script src="{{ theme:js src="{{ name }}" }}"></script>
+{{ /_js }}
+{{ else }}
+{{ endif }}
+</html>

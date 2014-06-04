@@ -1,0 +1,13 @@
+/* $shame
+-------------------------------------------------- */
+
+@-moz-document url-prefix() {
+
+	#proj-header .wrap #services li:nth-of-type(n+2) {
+		margin-left: -5px;
+	}
+
+	#proj-header.fixed {
+		position: absolute;
+	}
+}

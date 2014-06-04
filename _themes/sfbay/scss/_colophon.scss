@@ -1,0 +1,24 @@
+/* $colophon
+-------------------------------------------------- */
+
+#colophon {
+	font-weight: $light;
+
+	h3 {
+		font-family: $alternate;
+		font-size: 1.5em;
+		letter-spacing: 1px;
+	}
+
+	.skills {
+		list-style-type: circle;
+		padding-left: 20px;
+	}
+
+	.col-1-3 {
+
+		@include media($tablet-portrait) {
+			@include span-columns(6);
+		}
+	}
+}
