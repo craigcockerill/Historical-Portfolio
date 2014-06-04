@@ -1,6 +1,6 @@
 <?php
 
-const STATAMIC_VERSION = '1.7.1';
+const STATAMIC_VERSION = '1.6.4';
 const APP_PATH = __DIR__;
 
 /*
@@ -27,16 +27,10 @@ require_once __DIR__ . '/vendor/SplClassLoader.php';
 */
 
 $packages = array(
-  'Buzz',
-  'Carbon',
-  'emberlabs',
-  'Intervention',
-  'Michelf',
-  'Netcarver',
-  'Stampie',
   'Symfony',
-  'Whoops',
-  'Zeuxisoo'
+  'Buzz',
+  'Stampie',
+  'Intervention'
 );
 
 foreach ($packages as $package) {
@@ -44,16 +38,34 @@ foreach ($packages as $package) {
   $loader->register();
 }
 
-require_once __DIR__ . '/vendor/PHPMailer/PHPMailerAutoload.php';
+$loader = new SplClassLoader('emberlabs', __dir__.'/vendor/');
+$loader->register();
+
+require_once __DIR__ . '/vendor/PHPMailer/class.phpmailer.php';
 
 require_once __DIR__ . '/vendor/Spyc/Spyc.php';
+
+/*
+|--------------------------------------------------------------------------
+| The Markup Languages
+|--------------------------------------------------------------------------
+|
+| Even though Statamic only runs one primary markdown syntax at a time,
+| variable modifiers allow you to parse single variables with any
+| of the available parsers. Thus, we load them all.
+|
+*/
+
+require_once __DIR__ . '/vendor/Markup/markdown.php';
+require_once __DIR__ . '/vendor/Markup/classTextile.php';
+require_once __DIR__ . '/vendor/Markup/smartypants.php';
 
 /*
 |--------------------------------------------------------------------------
 | The Template Parser
 |--------------------------------------------------------------------------
 |
-| Statamic uses a *highly* modified fork of the Lex parser, created by
+| Statamic uses a highly modified fork of the Lex parser, created by
 | Dan Horrigan. Kudos Dan!
 |
 */
@@ -62,15 +74,61 @@ require_once __DIR__ . '/vendor/Lex/Parser.php';
 
 /*
 |--------------------------------------------------------------------------
-| Internal API & Class Autoloader
+| The API
 |--------------------------------------------------------------------------
 |
-| An autoloader for our internal API and other core classes
+| The internal-agnostic face of Statamic.
 |
 */
 
-// helper functions
-require_once __DIR__ . '/core/functions.php';
+require_once __DIR__ . '/core/api/cache.php';
+require_once __DIR__ . '/core/api/config.php';
+require_once __DIR__ . '/core/api/content.php';
+require_once __DIR__ . '/core/api/date.php';
+require_once __DIR__ . '/core/api/email.php';
+require_once __DIR__ . '/core/api/environment.php';
+require_once __DIR__ . '/core/api/folder.php';
+require_once __DIR__ . '/core/api/file.php';
+require_once __DIR__ . '/core/api/helper.php';
+require_once __DIR__ . '/core/api/hook.php';
+require_once __DIR__ . '/core/api/html.php';
+require_once __DIR__ . '/core/api/localization.php';
+require_once __DIR__ . '/core/api/parse.php';
+require_once __DIR__ . '/core/api/path.php';
+require_once __DIR__ . '/core/api/session.php';
+require_once __DIR__ . '/core/api/pattern.php';
+require_once __DIR__ . '/core/api/request.php';
+require_once __DIR__ . '/core/api/slug.php';
+require_once __DIR__ . '/core/api/taxonomy.php';
+require_once __DIR__ . '/core/api/theme.php';
+require_once __DIR__ . '/core/api/math.php';
+require_once __DIR__ . '/core/api/url.php';
+require_once __DIR__ . '/core/api/yaml.php';
 
-// register the Statamic autoloader
-spl_autoload_register("autoload_statamic");
+/*
+|--------------------------------------------------------------------------
+| The Core
+|--------------------------------------------------------------------------
+|
+| This is what makes Statamic tick.
+|
+*/
+
+require_once __DIR__ . '/core/statamic.php';
+require_once __DIR__ . '/core/contentservice.php';
+require_once __DIR__ . '/core/contentset.php';
+require_once __DIR__ . '/core/taxonomyset.php';
+require_once __DIR__ . '/core/log.php';
+require_once __DIR__ . '/core/logwriter.php';
+require_once __DIR__ . '/core/helper.php';
+require_once __DIR__ . '/core/addon.php';
+require_once __DIR__ . '/core/plugin.php';
+require_once __DIR__ . '/core/tasks.php';
+require_once __DIR__ . '/core/hooks.php';
+require_once __DIR__ . '/core/view.php';
+require_once __DIR__ . '/core/validate.php';
+require_once __DIR__ . '/core/auth.php';
+require_once __DIR__ . '/core/fieldset.php';
+require_once __DIR__ . '/core/fieldtype.php';
+require_once __DIR__ . '/core/user.php';
+require_once __DIR__ . '/core/functions.php';

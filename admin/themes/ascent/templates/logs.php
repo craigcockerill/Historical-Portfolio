@@ -24,16 +24,16 @@
 
       <?php if ($enabled && !$logs_writable): ?>
         <p class="alert">
-          <?php echo Localization::fetch('log_file')?> (<?php echo $path; ?>) <?php echo Localization::fetch('log_unwritable')?>
+          Your log file (<?php echo $path; ?>) is not writable, and thus, logs cannot be written.
         </p>
       <?php endif; ?>
 
       <p>
-        <?php echo ($enabled) ? Localization::fetch('logging_yes') : Localization::fetch('logging_no'); ?>
+        This site <strong><?php echo ($enabled) ? "is" : "is not"; ?></strong> logging
         <?php if ($enabled): ?>
-          <?php echo Localization::fetch('log_messages')?> <strong><?php echo $log_level; ?></strong>
+          messages, <strong><?php echo $log_level; ?></strong>-level messages or&nbsp;worse.
         <?php else: ?>
-          <?php echo Localization::fetch('log_turning_on')?>
+          messages. To turn on logging, set <code>_log_enabled</code> to <code>true</code> in <code>_config/settings.yaml</code>.
         <?php endif; ?>
       </p>
     </div>
@@ -43,25 +43,25 @@
       <form method="get" id="date-submit" class="log-controls">
         <p>
           <span>
-            <?php echo Localization::fetch('showing')?>
+            Showing
             <select id="filter-chooser" name="filter">
-              <option value=""><?php echo Localization::fetch('messages_all')?></option>
+              <option value="">all messages</option>
               <optgroup label="----------------">
-                <option value="debug"<?php echo ($filter === "debug") ? ' selected="selected"' : ''?>><?php echo Localization::fetch('messages_debug')?></option>
-                <option value="info"<?php echo ($filter === "info") ? ' selected="selected"' : ''?>><?php echo Localization::fetch('messages_info')?></option>
-                <option value="warn"<?php echo ($filter === "warn") ? ' selected="selected"' : ''?>><?php echo Localization::fetch('messages_warn')?></option>
-                <option value="error"<?php echo ($filter === "error") ? ' selected="selected"' : ''?>><?php echo Localization::fetch('messages_error')?></option>
-                <option value="fatal"<?php echo ($filter === "fatal") ? ' selected="selected"' : ''?>><?php echo Localization::fetch('messages_fatal')?></option>
+                <option value="debug"<?php echo ($filter === "debug") ? ' selected="selected"' : ''?>>only debug messages</option>
+                <option value="info"<?php echo ($filter === "info") ? ' selected="selected"' : ''?>>only info messages</option>
+                <option value="warn"<?php echo ($filter === "warn") ? ' selected="selected"' : ''?>>only warn messages</option>
+                <option value="error"<?php echo ($filter === "error") ? ' selected="selected"' : ''?>>only error messages</option>
+                <option value="fatal"<?php echo ($filter === "fatal") ? ' selected="selected"' : ''?>>only fatal messages</option>
               </optgroup>
               <optgroup label="----------------">
-                <option value="info+"<?php echo ($filter === "info+") ? ' selected="selected"' : ''?>><?php echo Localization::fetch('info_plus')?></option>
-                <option value="warn+"<?php echo ($filter === "warn+") ? ' selected="selected"' : ''?>><?php echo Localization::fetch('warn_plus')?></option>
-                <option value="error+"<?php echo ($filter === "error+") ? ' selected="selected"' : ''?>><?php echo Localization::fetch('error_plus')?></option>
+                <option value="info+"<?php echo ($filter === "info+") ? ' selected="selected"' : ''?>>info messages or worse</option>
+                <option value="warn+"<?php echo ($filter === "warn+") ? ' selected="selected"' : ''?>>warn messages or worse</option>
+                <option value="error+"<?php echo ($filter === "error+") ? ' selected="selected"' : ''?>>error messages or worse</option>
               </optgroup>
             </select>
           </span>
           <span>
-            <?php echo Localization::fetch('messages_happened')?>
+            that happened on
             <select id="date-chooser" name="date">
               <?php
               foreach ($logs as $date => $info) {
@@ -84,11 +84,11 @@
       <table class="table-log log-sortable log">
         <thead>
           <tr>
-            <th class="level"><?php echo Localization::fetch('messages_level')?></th>
-            <th class="when"><?php echo Localization::fetch('messages_when')?></th>
-            <th class="what" colspan="3"><?php echo Localization::fetch('messages_what')?></th>
-            <th><?php echo Localization::fetch('messages_page')?></th>
-            <th><?php echo Localization::fetch('messages_message')?></th>
+            <th class="level">Level</th>
+            <th class="when">When</th>
+            <th class="what" colspan="3">What Caused This</th>
+            <th>Page</th>
+            <th>Message</th>
           </tr>
         </thead>
 
@@ -101,7 +101,7 @@
             <td class="colon">:</td>
             <td class="specifically"><?php echo $row[3]; ?></td>
             <td><a href="<?php echo $row[4]; ?>"><?php echo $row[4]; ?></a></td>
-            <td><?php echo Parse::markdown($row[7]); ?></td>
+            <td><?php echo Markdown($row[7]); ?></td>
           </tr>
         <?php endforeach; ?>
         </tbody>
@@ -113,7 +113,7 @@
         <li class="level-<?php echo strtolower($row[0]); ?>">
           <strong class="level level-<?php echo strtolower($row[0]); ?>"><?php echo ucwords(strtolower($row[0])); ?></strong>
 
-          <?php echo Parse::markdown($row[7]); ?>
+          <?php echo Markdown($row[7]); ?>
 
           <h6>
             <?php echo Date::format($time_format, $row[1]); ?> ·
@@ -125,13 +125,13 @@
     </ul>
     <?php else: ?>
       <?php if (trim($filter)): ?>
-        <p><?php echo Localization::fetch('log_filter_nomessages')?></p>
+        <p>This log file exists, but contains no messages with this filter.</p>
       <?php else: ?>
-        <p><?php echo Localization::fetch('log_nomessages')?></p>
+        <p>This log file exists, but there are no messages.</p>
       <?php endif; ?>
     <?php endif; ?>
   <?php else: ?>
-    <p><?php echo Localization::fetch('log_nomessages_logged')?></p>
+    <p>No messages have been logged yet.</p>
   <?php endif; ?>
 </div>
 </div></div>

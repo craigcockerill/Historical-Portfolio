@@ -71,7 +71,7 @@ class HTML
     {
         // $url = URL::to_asset($url);
 
-        return '<script src="' . $url . '"' . self::buildAttributes($attributes) . '></script>' . PHP_EOL;
+        return '<script src="' . $url . '"' . static::buildAttributes($attributes) . '></script>' . PHP_EOL;
     }
 
 
@@ -100,7 +100,7 @@ class HTML
 
         // $url = URL::to_asset($url);
 
-        return '<link href="' . $url . '"' . self::buildAttributes($attributes) . '>' . PHP_EOL;
+        return '<link href="' . $url . '"' . static::buildAttributes($attributes) . '>' . PHP_EOL;
     }
 
 
@@ -123,10 +123,11 @@ class HTML
      */
     public static function makeLink($url, $title = NULL, $attributes = array(), $https = false)
     {
+        $url = URL::to($url, $https);
 
-        $title = (is_null($title)) ? $url : $title;
+        if (is_null($title)) $title = $url;
 
-        return '<a href="' . $url . '"' . self::buildAttributes($attributes) . '>' . self::convertEntities($title) . '</a>';
+        return '<a href="' . $url . '"' . static::buildAttributes($attributes) . '>' . static::convertEntities($title) . '</a>';
     }
 
 
@@ -140,7 +141,7 @@ class HTML
      */
     public static function linkToSecure($url, $title = NULL, $attributes = array())
     {
-        return self::makeLink($url, $title, $attributes, TRUE);
+        return static::makeLink($url, $title, $attributes, TRUE);
     }
 
 
@@ -156,13 +157,13 @@ class HTML
      */
     public static function mailTo($email, $title = NULL, $attributes = array())
     {
-        $email = self::obfuscateEmail($email);
+        $email = static::obfuscateEmail($email);
 
         if (is_null($title)) $title = $email;
 
         $email = '&#109;&#097;&#105;&#108;&#116;&#111;&#058;' . $email;
 
-        return '<a href="' . $email . '"' . self::buildAttributes($attributes) . '>' . self::convertEntities($title) . '</a>';
+        return '<a href="' . $email . '"' . static::buildAttributes($attributes) . '>' . static::convertEntities($title) . '</a>';
     }
 
     /**
@@ -173,7 +174,7 @@ class HTML
      */
     public static function obfuscateEmail($email)
     {
-        return str_replace('@', '&#64;', self::obfuscate($email));
+        return str_replace('@', '&#64;', static::obfuscate($email));
     }
 
     /**
@@ -188,7 +189,7 @@ class HTML
     {
         $attributes['alt'] = $alt;
 
-        return '<img src="' . URL::to_asset($url) . '"' . self::buildAttributes($attributes) . '>';
+        return '<img src="' . URL::to_asset($url) . '"' . static::buildAttributes($attributes) . '>';
     }
 
     /**
@@ -200,7 +201,7 @@ class HTML
      */
     public static function makeOl($list, $attributes = array())
     {
-        return self::makeList('ol', $list, $attributes);
+        return static::makeList('ol', $list, $attributes);
     }
 
     /**
@@ -212,7 +213,7 @@ class HTML
      */
     public static function makeUl($list, $attributes = array())
     {
-        return self::makeList('ul', $list, $attributes);
+        return static::makeList('ul', $list, $attributes);
     }
 
     /**
@@ -235,16 +236,16 @@ class HTML
             // lists may exist within nested lists, etc.
             if (is_array($value)) {
                 if (is_int($key)) {
-                    $html .= self::makeList($type, $value);
+                    $html .= static::makeList($type, $value);
                 } else {
-                    $html .= '<li>' . $key . self::makeList($type, $value) . '</li>';
+                    $html .= '<li>' . $key . static::makeList($type, $value) . '</li>';
                 }
             } else {
-                $html .= '<li>' . self::convertEntities($value) . '</li>';
+                $html .= '<li>' . static::convertEntities($value) . '</li>';
             }
         }
 
-        return '<' . $type . self::buildAttributes($attributes) . '>' . $html . '</' . $type . '>';
+        return '<' . $type . static::buildAttributes($attributes) . '>' . $html . '</' . $type . '>';
     }
 
     /**
@@ -300,14 +301,7 @@ class HTML
             if (is_numeric($key)) $key = $value;
 
             if (!is_null($value)) {
-                if (is_array($value)) {
-                    $value = implode(' ', $value);
-                }
-
-                // if empty, then don't add attribute
-                if ($value === '') continue;
-
-                $html[] = $key . '="' . self::convertEntities($value) . '"';
+                $html[] = $key . '="' . static::convertEntities($value) . '"';
             }
         }
 

@@ -43,8 +43,9 @@
           <div class="page-primary">
           <?php
           $base = $page['slug'];
+
           if ($page['type'] == 'file'): ?>
-            <a href="<?php print $app->urlFor('publish')."?path={$page['slug']}"; ?>"><span class="page-title"><?php print (isset($page['title']) && $page['title'] <> '') ? $page['title'] : Slug::prettify($page['slug']) ?></span></a>
+            <a href="<?php print $app->urlFor('publish')."?path={$page['url']}"; ?>"><span class="page-title"><?php print (isset($page['title']) && $page['title'] <> '') ? $page['title'] : Slug::prettify($page['slug']) ?></span></a>
           <?php elseif ($page['type'] == 'home'): ?>
             <a href="<?php print $app->urlFor('publish')."?path={$page['url']}"; ?>"><span class="page-title"><?php print $page['title'] ?></span></a>
           <?php else:
@@ -86,7 +87,7 @@
 
               <?php if (Config::get('_enable_delete_page', true)):?>
                 <div class="page-delete">
-                  <a class="confirm tip" href="<?php print $app->urlFor('delete_page') . '?path=' . $page['raw_url'] . '&type=' . $page['type']?>" title="<?php echo Localization::fetch('delete_page')?>" data-confirm-message="<?php echo Localization::fetch('pagedelete_confirm')?>">
+                  <a class="confirm tip" href="<?php print $app->urlFor('delete_page') . '?path=' . $page['raw_url'] . '&type=' . $page['type']?>" title="<?php echo Localization::fetch('delete_page')?>" data-confirm-message="Are you sure you wish to delete this page?">
                     <span class="ss-icon">delete</span>
                   </a>
                 </div>
@@ -117,9 +118,9 @@
 
       <!-- PAGE TITLE -->
         <?php if ($page['type'] == 'file'): ?>
-          <a href="<?php print $app->urlFor('publish')."?path={$base}/{$page['slug']}"; ?>"><span class="page-title"><?php print isset($page['title']) ? $page['title'] : Slug::prettify($page['slug']) ?></span></a>
+          <a href="<?php print $app->urlFor('publish')."?path={$base}/{$page['slug']}"; ?>"><span class="page-title"><?php print isset($page['title']) ? $page['title'] : Statamic_Helper::prettify($page['slug']) ?></span></a>
         <?php else: ?>
-          <a href="<?php print $app->urlFor('publish')."?path={$page['file_path']}"; ?>"><span class="page-title"><?php print isset($page['title']) ? $page['title'] : Slug::prettify($page['slug']) ?></span></a>
+          <a href="<?php print $app->urlFor('publish')."?path={$page['file_path']}"; ?>"><span class="page-title"><?php print isset($page['title']) ? $page['title'] : Statamic_Helper::prettify($page['slug']) ?></span></a>
 
         <?php endif ?>
 
@@ -154,7 +155,7 @@
 
         <?php if (Config::get('_enable_delete_page', true)):?>
         <div class="page-delete">
-          <a class="confirm tip" href="<?php print $app->urlFor('delete_page') . '?path=' . $page['raw_url'] . '&type=' . $page['type']?>" title="<?php echo Localization::fetch('delete_page')?>" data-confirm-message="<?php echo Localization::fetch('pagedelete_confirm')?>">
+          <a class="confirm tip" href="<?php print $app->urlFor('delete_page') . '?path=' . $page['raw_url'] . '&type=' . $page['type']?>" title="<?php echo Localization::fetch('delete_page')?>" data-confirm-message="Are you sure you wish to delete this page?">
             <span class="ss-icon">delete</span>
           </a>
         </div>

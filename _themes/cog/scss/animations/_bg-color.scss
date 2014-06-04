@@ -1,63 +1,35 @@
-@-webkit-keyframes type-color {
-	0% {
-		color: $primary;
-	}
-	20% {
-		color: #066d36;
-	}
-	40% {
-		color: #2a7e51;
-	}
-	60% {
-		color: #47d388;
-	}
-	80% {
-		color: #6cd39c;
-	}
-	100% {
-		color: $primary;
-	}
-}
-
-@keyframes type-color {
-	0% {
-		color: $primary;
-	}
-	20% {
-		color: #066d36;
-	}
-	40% {
-		color: #2a7e51;
-	}
-	60% {
-		color: #47d388;
-	}
-	80% {
-		color: #6cd39c;
-	}
-	100% {
-		color: $primary;
-	}
-}
-
-
 @-webkit-keyframes bg-color {
 	0% {
-		background: $primary;
+		color: $primary;
 	}
-	20% {
-		background: #066d36;
+	25% {
+		color: #186b97;
 	}
-	40% {
-		background: #2a7e51;
+	50% {
+		color: #df8a25;
 	}
-	60% {
-		background: #47d388;
-	}
-	80% {
-		background: #6cd39c;
+	75% {
+		color: #ee4a1b;
 	}
 	100% {
-		background: $primary;
+		color: $primary;
+	}
+}
+
+@keyframes bg-color {
+	0% {
+		color: $primary;
+	}
+	25% {
+		color: #186b97;
+	}
+	50% {
+		color: #df8a25;
+	}
+	75% {
+		color: #ee4a1b;
+	}
+	100% {
+		color: $primary;
 	}
 }

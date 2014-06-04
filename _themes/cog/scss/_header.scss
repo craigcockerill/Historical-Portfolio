@@ -11,13 +11,13 @@ header {
 	font-family: $alternate;
 	text-decoration: none;
 	opacity: 1;
-	font-size: 1.25em;
+	font-size: 1.75em;
 	line-height: 1.5em;
+	letter-spacing: 1px;
 	-webkit-font-smoothing: antialiased;
-	margin-top: .55em;
 
-	animation-name:                  type-color;
-	-webkit-animation-name:          type-color;
+	animation-name:                    bg-color;
+	-webkit-animation-name:            bg-color;
 	animation-duration:                     20s;
 	-webkit-animation-duration:             20s;
 	animation-iteration-count:         infinite;
@@ -31,18 +31,7 @@ header {
 	}
 }
 
-.test {
-	width: 100%;
-	height: 600px;
 
-	animation-name:                    bg-color;
-	-webkit-animation-name:            bg-color;
-	animation-duration:                     20s;
-	-webkit-animation-duration:             20s;
-	animation-iteration-count:         infinite;
-	-webkit-animation-iteration-count: infinite;
-
-}
 
 /* $navigation
 ------------------------- */
@@ -53,7 +42,7 @@ header {
 	margin-top: 15px;
 	font-size: 1.25em;
 	line-height: 1em;
-	// color: $primary;
+	color: $primary;
 	float: right;
 	cursor: pointer;
 	display: none;
@@ -107,7 +96,7 @@ header {
 			text-transform: uppercase;
 			font-weight: $regular;
 			font-size: .9em;
-			// color: $primary;
+			color: $primary;
 			letter-spacing: 1px;
 			border-bottom: 1px solid transparent;
 			-webkit-transition: opacity .2s, border .2s;

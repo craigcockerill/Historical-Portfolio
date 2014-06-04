@@ -5,7 +5,7 @@
  *
  * @author  Fred LeBlanc
  */
-class Statamic_Logwriter {
+class Statamic_LogWriter {
 
 	protected $resource;
 	protected $settings = array();

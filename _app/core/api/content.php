@@ -39,16 +39,9 @@ class Content
      */
     public static function parse($template_data, $data, $type=NULL)
     {
-        $app    = \Slim\Slim::getInstance();
-        $config = $app->config;
-        
-        foreach ($config as $key => $item) {
-            if (is_object($item)) {
-                unset($config[$key]);
-            }
-        }
+        $app   = \Slim\Slim::getInstance();
 
-        $data  = $data + $config;
+        $data  = array_merge($app->config, $data);
 
         $parse_order = Config::getParseOrder();
 
@@ -78,7 +71,7 @@ class Content
         switch (strtolower($content_type)) {
             case "markdown":
             case "md":
-                $content = Parse::markdown($content);
+                $content = Markdown($content);
                 break;
 
             case "text":
@@ -87,14 +80,13 @@ class Content
                 break;
 
             case "textile":
-                $content = Parse::textile($content);
+                $textile = new Textile();
+                $content = $textile->TextileThis($content);
         }
 
-        if (Config::get('enable_smartypants', TRUE) === TRUE) {
-            $content = Parse::smartypants($content);
-        } elseif (Config::get('enable_smartypants', TRUE) === 'typographer') {
-            $content = Parse::smartypants($content, TRUE);
-        } 
+        if (Config::get('_enable_smartypants', TRUE) == TRUE) {
+            $content = SmartyPants($content, 2);
+        }
 
         return trim($content);
     }
@@ -104,14 +96,12 @@ class Content
      * Fetch a single content entry or page
      *
      * @param string  $url  URL to fetch
-     * @param bool  $parse_content  Should we parse content?
-     * @param bool  $supplement  Should we supplement the content?
      * @return array
      */
-    public static function get($url, $parse_content=true, $supplement=true)
+    public static function get($url)
     {
-        $content_set  = ContentService::getContentByURL($url);
-        $content      = $content_set->get($parse_content, $supplement);
+        $content_set = ContentService::getContentByURL($url);
+        $content = $content_set->get();
 
         return (isset($content[0])) ? $content[0] : array();
     }

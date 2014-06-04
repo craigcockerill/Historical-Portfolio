@@ -16,7 +16,6 @@ class Localization
      *
      * @param $key      string  YAML key of the desired text string
      * @param $language string  Optionally override the desired language
-     * @param $lower    boolean  Convert word to lowercase?
      * @return mixed
      */
     public static function fetch($key, $language = null, $lower = false)
@@ -60,21 +59,5 @@ class Localization
         }
 
         return ($lower) ? strtolower($value) : $value;
-    }
-    
-    
-    /**
-     * Initializes localization, overwriting any in-code defaults
-     * 
-     * @return void
-     */
-    public static function initialize()
-    {
-        // update publication states
-        Statamic::$publication_states = array(
-            'live'   => self::fetch('live'),
-            'hidden' => self::fetch('hidden'),
-            'draft'  => self::fetch('draft')
-        );
     }
 }

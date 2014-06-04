@@ -22,24 +22,14 @@ class Config
     {
         $app = \Slim\Slim::getInstance();
 
-        if ( ! isset($app->config)) {
-            return $default;
+        if (isset($app->config[$setting])) {
+            return $app->config[$setting];
+
+        } elseif (isset($app->config['_' . $setting])) {
+            return $app->config['_' . $setting];
         }
 
-        // Fall back to a string default for the next step...
-        $value = array_get($app->config, $setting, 'unset');
-        
-        // which is to add an _underscore prefix check. 
-        if ($value === 'unset') {
-            $value = array_get($app->config, '_' . $setting, 'unset');
-        }
-
-        // If still not set, return default
-        if ($value === 'unset') {
-            $value = $default;
-        }
-
-        return $value;
+        return $default;
     }
 
 
@@ -108,21 +98,7 @@ class Config
      */
     public static function getAddOnPath($addon)
     {
-        return Path::assemble(self::getAddOnsPath(), $addon);
-    }
-
-
-    /**
-     * Returns a list of add-on locations
-     *
-     * @return array
-     */
-    public static function getAddOnLocations()
-    {
-        return array(
-            '_app/core/bundles/',  // check first-party bundles first
-            '_add-ons/'            // check third-party add-ons second
-        );
+        return URL::assemble(self::getAddOnsPath(), $addon);
     }
 
 

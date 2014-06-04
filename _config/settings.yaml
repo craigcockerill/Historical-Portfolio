@@ -19,7 +19,7 @@ _license_key: 928eed88-466c-4dac-852a-51ee77dc4dd4
 _site_root: /
 
 # Name of your site
-_site_name: Craig Cockerill | UI Engineer at Piazza
+_site_name: Craig Cockerill | Web Design + Front-End Development
 
 # Change the folder name for your content directory
 _content_root: _content
@@ -28,7 +28,7 @@ _content_root: _content
 _site_url: http://cockerill.me
 
 # Folder name of your desired theme
-_theme: sfbay
+_theme: cog
 
 # Entries should include timestamp YYYY-MM-DD-HHII
 _entry_timestamps: false

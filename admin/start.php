@@ -25,16 +25,9 @@ date_default_timezone_set(Helper::pick($config['_timezone'], 'UTC'));
 |
 */
 
-$config['whoops.editor'] = 'sublime';
-
 $admin_app = new \Slim\Slim(array_merge($config, array('view' => new Statamic_View)));
 
-// Initialize Whoops middleware
-$admin_app->add(new \Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware);
-
 $admin_app->config = $config;
-
-$admin_app->config['_cookies.secret_key'] = Cookie::getSecretKey();
 
 /*
 |--------------------------------------------------------------------------
@@ -45,9 +38,9 @@ $admin_app->config['_cookies.secret_key'] = Cookie::getSecretKey();
 |
 */
 
-session_cache_limiter(false);
-session_start();
-
+$admin_app->add(new \Slim\Middleware\SessionCookie(
+  array('expires' => $config['_cookies.lifetime']))
+);
 
 /*
 |--------------------------------------------------------------------------

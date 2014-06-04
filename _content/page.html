@@ -1,3 +1,10 @@
 ---
-title: Craig Cockerill | UI Engineer
+title: Craig Cockerill | Designer + Front-End Developer
 ---
+<ul id="projects">
+{{ entries:listing folder="work" }}
+	<li style="background: url('/assets/img/projects/{{ _slug }}/bg-pl-{{ _slug }}.jpg') 50% 0 no-repeat; background-size: 318px 200px;">
+		<a href="{{ url }}">{{ title }}</a>
+	</li>
+{{ /entries:listing }}
+</ul>

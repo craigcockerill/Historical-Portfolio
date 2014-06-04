@@ -1,8 +1,8 @@
-/* $DECLARATIONS
+/* $declarations
 -------------------------------------------------- */
 
 $bg: #fff;
-$primary: #13a858;
+$primary: #13a857;
 $primary-light: rgba(19, 168, 87, .125);
 $grey: #f9f9f9;
 $lightgrey: #e2e2e2;
@@ -10,40 +10,36 @@ $black: #313431;
 $bg-stripe: url('../img/bg-stripe.png') repeat;
 
 
-/* $UTILITIES
+/* $utilities
 ------------------------- */
 
 .clearfix {
 	@include clearfix;
 }
 
-::selection {
-	background: #e2f5ea; /* Safari */
-	}
-::-moz-selection {
-	background: #e2f5ea; /* Firefox */
-}
 
-/* $BREAKPOINTS
+/* $breakpoints
 ------------------------- */
 
 $tablet: new-breakpoint(max-width 1090px 12);
 $tablet-portrait: new-breakpoint(max-width 768px 6);
 $mobile: new-breakpoint(max-width 500px 2);
 
-/* $TYPOGRAPHY
+/* $typography
 ------------------------- */
 
-$copy: 'Cantarell', sans-serif;
-$alternate: $copy;
+$copy: "jaf-bernino-sans", sans-serif;
+$alternate: "jaf-herb";
 
-$light: 400;
+$light: 300;
 $regular: 400;
 $semibold: 600;
 $bold: 700;
 
 
-/* $GLOBAL
+
+
+/* $global
 -------------------------------------------------- */
 
 html, body {
@@ -55,41 +51,16 @@ body {
 	font-size: 100%;
 	line-height: 1.5em;
 	font-style: normal;
-	font-weight: $regular;
+	font-weight: $light;
 	font-family: $copy;
 	color: $primary;
 	@include transition(all .2s);
 	-webkit-backface-visibility: hidden;
 	-moz-backface-visibility:    hidden;
 	-ms-backface-visibility:     hidden;
-
-	animation-name:                  type-color;
-	-webkit-animation-name:          type-color;
-	animation-duration:                     20s;
-	-webkit-animation-duration:             20s;
-	animation-iteration-count:         infinite;
-	-webkit-animation-iteration-count: infinite;
 }
 
-/* $FOUT
--------------------------------------------------- */
-
-
-.wf-loading {
-	a, h1, h2, h3, h4, h5, h6, span, p, li, pre, code, input, textarea {
-		font-family: $copy;
-		visibility: hidden;
-	}
-}
-
-.wf-active {
-	a, h1, h2, h3, h4, h5, h6, span, p, li, pre, code, input, textarea {
-		visibility: visible;
-	}
-}
-
-
-/* $STRUCTURE
+/* $structure
 -------------------------------------------------- */
 
 .wrap {
@@ -151,7 +122,7 @@ body {
 
 }
 
-/* $TYPOGRAPHY
+/* $typography
 -------------------------------------------------- */
 
 h1, h2, h3, h4, h5, h6 {
@@ -181,7 +152,7 @@ h3 {
 }
 
 .type {
-	font-weight: $regular;
+	font-weight: $light;
 }
 
 a {
@@ -205,3 +176,21 @@ a {
 	letter-spacing: 2px;
 }
 
+/* $FOUT
+-------------------------------------------------- */
+
+
+.wf-loading {
+
+	a, h1, h2, h3, h4, h5, h6, span, p, li, pre, code, input, textarea {
+		font-family: $copy;
+		visibility: hidden;
+	}
+}
+
+.wf-active {
+
+	a, h1, h2, h3, h4, h5, h6, span, p, li, pre, code, input, textarea {
+		visibility: visible;
+	}
+}
