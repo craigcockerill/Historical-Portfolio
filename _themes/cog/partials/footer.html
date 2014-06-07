@@ -2,7 +2,7 @@
 
 	<footer>
 		<div class="wrap">
-			<h6>{{ _site_name }} | Grand Rapids, MI</h6>
+			<h6>{{ _site_name }} | Palo Alto, CA</h6>
 			<ul id="nav-footer">
 				<li>
 					{{ if ! segment_1 }}
@@ -13,7 +13,7 @@
 						Work
 					</a>
 				</li>
-				{{ nav from="/" max_depth="1" exclude="work" }}
+				{{ nav from="/" max_depth="1" exclude="work|blog" }}
 				<li>
 					<a href="{{ url }}" {{ if is_current }} class="current" {{ endif }}>
 						{{ title }}

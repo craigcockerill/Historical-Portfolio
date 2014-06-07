@@ -1,84 +1,84 @@
 <!doctype html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<title>{{ if _meta_title }} {{ _meta_title }} {{ else }} {{ _site_name }} {{ endif }}</title>
+  <meta charset="utf-8">
+  <title>{{ if _meta_title }} {{ _meta_title }} {{ else }} {{ _site_name }} {{ endif }}</title>
 
-	<meta name="viewport" content="initial-scale=1, user-scalable=no">
-	<meta name="description" content="Craig Cockerill is a web designer &amp; front-end developer living in Grand Rapids." />
-	<meta name="keywords" content="craig, cockerill, craig cockerill, craigcockerill, design, web, web design, front-end, development, front-end development, web development, cms, custom, wordpress, statamic, expressionengine, craft, information architecture, information, architecture, ia, ui, ux, user interface, user experience, strategy" />
-	<meta name="robots" content="index,follow,archive" />
-
-
-	<link rel="shortcut icon" href="{{ theme:img src="favicon.png"}}" />
+  <meta name="viewport" content="initial-scale=1, user-scalable=no">
+  <meta name="description" content="Craig Cockerill is a web designer &amp; front-end developer living in Palo Alto." />
+  <meta name="keywords" content="craig, cockerill, craig cockerill, ui/ux, ui, ux, user interface, interaction, user experience, front-end, front-end developer, front-end engineer web design, design" />
+  <meta name="robots" content="index,follow,archive" />
 
 
+  <link rel="shortcut icon" href="{{ theme:img src="favicon.png"}}" />
 
-	<link rel="stylesheet" href="{{ theme:css }}" />
 
-	<script type="text/javascript">
-	  (function() {
-	    var config = {
-	      kitId: 'hhw3nru',
-	      scriptTimeout: 3000
-	    };
-	    var h=document.getElementsByTagName("html")[0];h.className+=" wf-loading";var t=setTimeout(function(){h.className=h.className.replace(/(\s|^)wf-loading(\s|$)/g," ");h.className+=" wf-inactive"},config.scriptTimeout);var tk=document.createElement("script"),d=false;tk.src='//use.typekit.net/'+config.kitId+'.js';tk.type="text/javascript";tk.async="true";tk.onload=tk.onreadystatechange=function(){var a=this.readyState;if(d||a&&a!="complete"&&a!="loaded")return;d=true;clearTimeout(t);try{Typekit.load(config)}catch(b){}};var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(tk,s)
-	  })();
-	</script>
 
-	<script type="text/javascript">
+  <link rel="stylesheet" href="{{ theme:css }}" />
 
-				var _gaq = _gaq || [];
-				_gaq.push(['_setAccount', 'UA-25419725-1']);
-				_gaq.push(['_trackPageview']);
+<script type="text/javascript">
+  (function(d) {
+    var config = {
+      kitId: 'zxq5jgv',
+      scriptTimeout: 3000
+    },
+    h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='//use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+  })(document);
+</script>
 
-				(function() {
-					var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-					ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-					var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-				})();
+  <script type="text/javascript">
 
-			</script>
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-25419725-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+      </script>
 
 </head> {{# End Section Head #}}
 
 <body {{ if segment_1 }}class="internal"{{ endif }} >
 
-	<header>
+  <header>
 
-		<div class="wrap">
+    <div class="wrap">
 
-			{{ if ! segment_1 }}
-			<a href="#" id="name-link">
-			{{ else }}
-			<a href="/" id="name-link">
-			{{ endif }}
+      {{ if ! segment_1 }}
+      <a href="#" id="name-link">
+      {{ else }}
+      <a href="/" id="name-link">
+      {{ endif }}
 
-				Craig Cockerill
-			</a>
+        Craig Cockerill
+      </a>
 
-			<i class="ss-icon ss-rows"></i>
+      <i class="ss-icon ss-rows"></i>
 
-			<ul id="nav-main">
-				<li>
-					{{ if ! segment_1 }}
-					<a href="#" class="current">
-					{{ else }}
-					<a href="/">
-					{{ endif }}
-						Work
-					</a>
-				</li>
-				{{ nav from="/" max_depth="1" exclude="work|colophon" }}
-				<li>
-					<a href="{{ url }}" {{ if is_current }} class="current" {{ endif }}>
-						{{ title }}
-					</a>
-				</li>
-				{{ /nav }}
-			</ul> {{# End Main Nav #}}
-		</div> {{# End Header Wrap #}}
+      <ul id="nav-main">
+        <li>
+          {{ if ! segment_1 }}
+          <a href="#" class="current">
+          {{ else }}
+          <a href="/">
+          {{ endif }}
+            Work
+          </a>
+        </li>
+        {{ nav from="/" max_depth="1" exclude="work|colophon|blog" }}
+        <li>
+          <a href="{{ url }}" {{ if is_current }} class="current" {{ endif }}>
+            {{ title }}
+          </a>
+        </li>
+        {{ /nav }}
+      </ul> {{# End Main Nav #}}
+    </div> {{# End Header Wrap #}}
 
-	</header> {{# End Site Header #}}
+  </header> {{# End Site Header #}}
 
-	<section id="page-wrap"> {{# For Sticky Footer #}}
+  <section id="page-wrap"> {{# For Sticky Footer #}}
