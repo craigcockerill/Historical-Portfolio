@@ -19,10 +19,10 @@ $bg-stripe: url('../img/bg-stripe.png') repeat;
 }
 
 ::selection {
-  background: #e2f5ea; /* Webkit */
+  background: lighten($spot, 40%); /* Webkit */
   }
 ::-moz-selection {
-  background: #e2f5ea; /* Firefox */
+  background: lighten($spot, 40%); /* Firefox */
 }
 
 /* $BREAKPOINTS
@@ -168,6 +168,10 @@ h3 {
   font-weight: $regular;
 }
 
+p {
+  margin: 0 0 18px 0;
+}
+
 .type {
   font-weight: $regular;
 }
@@ -182,9 +186,8 @@ a {
   @include transition (all .2s);
 
   &:hover {
-    color: lighten($spot, 25%);
+    color: lighten($spot, 30%);
     background: $spot;
-    border-radius: 3px;
   }
 }
 

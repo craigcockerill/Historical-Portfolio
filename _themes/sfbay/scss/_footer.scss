@@ -21,10 +21,10 @@ footer {
   .wrap {
 
     h6 {
-      font-size: 14px;
-      line-height: 18px;
+      font-size: 18px;
+      line-height: 24px;
       font-weight: $light;
-      margin: 0 0 12px 0;
+      margin: 0 0 6px 0;
       display: inline-block;
 
       @include media($tablet-portrait) {
@@ -48,11 +48,14 @@ footer {
 
     a {
       opacity: .5;
+      color: $spot;
       display: inline-block;
       @include transition(opacity, .2s);
 
       &:hover {
         opacity: 1;
+        color: $spot;
+        background: none;
       }
     }
   }

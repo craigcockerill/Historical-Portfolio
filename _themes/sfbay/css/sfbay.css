@@ -333,11 +333,11 @@ table {
     clear: both; }
 
 ::selection {
-  background: #e2f5ea;
+  background: #dbf5e9;
   /* Webkit */ }
 
 ::-moz-selection {
-  background: #e2f5ea;
+  background: #dbf5e9;
   /* Firefox */ }
 
 /* $BREAKPOINTS
@@ -486,6 +486,9 @@ h3 {
   line-height: 1.5em;
   font-weight: 400; }
 
+p {
+  margin: 0 0 18px 0; }
+
 .type {
   font-weight: 400; }
 
@@ -499,9 +502,8 @@ a {
   -moz-transition: all 0.2s;
   transition: all 0.2s; }
   a:hover {
-    color: #9ee5c6;
-    background: #3aca8a;
-    border-radius: 3px; }
+    color: #b3ead2;
+    background: #3aca8a; }
 
 #temp {
   margin-top: 60px;
@@ -524,7 +526,6 @@ header {
   letter-spacing: .05em;
   -webkit-font-smoothing: antialiased;
   border: 5px solid #3aca8a;
-  border-radius: 3px;
   padding: 3px 6px; }
   #name-link:hover {
     color: #9ee5c6;
@@ -1157,10 +1158,10 @@ footer {
     float: right;
     margin-right: 5px; }
   footer .wrap h6 {
-    font-size: 14px;
-    line-height: 18px;
+    font-size: 18px;
+    line-height: 24px;
     font-weight: 300;
-    margin: 0 0 12px 0;
+    margin: 0 0 6px 0;
     display: inline-block; }
     @media screen and (max-width: 768px) {
       footer .wrap h6 {
@@ -1177,12 +1178,15 @@ footer {
     display: inline-block; }
     #nav-footer li a {
       opacity: .5;
+      color: #3aca8a;
       display: inline-block;
       -webkit-transition: opacity, 0.2s;
       -moz-transition: opacity, 0.2s;
       transition: opacity, 0.2s; }
       #nav-footer li a:hover {
-        opacity: 1; }
+        opacity: 1;
+        color: #3aca8a;
+        background: none; }
   @media screen and (max-width: 768px) {
     #nav-footer {
       display: none; } }
