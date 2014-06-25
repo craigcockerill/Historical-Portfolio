@@ -34,6 +34,7 @@
 		interaction_box_zoom: true,
 		interaction_touch_zoom: true,
 		interaction_draggable: true,
+		interaction_tap: true,
 
 		mapping_service: 'mapbox',
 		mapping_service_api_key: 'examples.map-zr0njcqy',
@@ -148,7 +149,8 @@
 				doubleClickZoom: settings.interaction_double_click_zoom,
 				boxZoom: settings.interaction_box_zoom,
 				touchZoom: settings.interaction_touch_zoom,
-				dragging: settings.interaction_draggable
+				dragging: settings.interaction_draggable,
+				tap: settings.interaction_tap
 			}).setView(starting_latlng, settings.starting_zoom);
 
 			// attribution re-use

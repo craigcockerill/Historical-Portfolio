@@ -289,7 +289,7 @@ class Plugin_member extends Plugin
             return Parse::template($this->content, array('no_results' => true));
         }
 
-        return Parse::tagLoop($this->content, $member_set->get());
+        return Parse::tagLoop($this->content, $member_set->get(), true, $this->context);
     }
 
 

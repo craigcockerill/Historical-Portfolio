@@ -5,9 +5,8 @@
  *
  * @author      Jack McDade
  * @author      Fred LeBlanc
- * @author      Mubashar Iqbal
  * @package     Core
- * @copyright   2013 Statamic
+ * @copyright   2014 Statamic
  */
 class TaxonomySet
 {
@@ -24,6 +23,7 @@ class TaxonomySet
     public function __construct($data)
     {
         $this->data = $data;
+        $this->tallyResults();
     }
 
 
@@ -35,6 +35,19 @@ class TaxonomySet
     public function count()
     {
         return count($this->data);
+    }
+
+    /**
+     * Tally Results
+     *
+     * Tally up the result counts for this set
+     * @return void
+     **/
+    public function tallyResults()
+    {
+        foreach ($this->data as $key => $item) {
+            $this->data[$key]['results'] = $item['content']->count();
+        }
     }
 
 
@@ -84,6 +97,9 @@ class TaxonomySet
         }
 
         $this->data = $data;
+        
+        // re-tally results
+        $this->tallyResults();
     }
 
 
@@ -125,9 +141,10 @@ class TaxonomySet
         }
 
         usort($this->data, function($item_1, $item_2) use ($field) {
-            $value_1 = (isset($item_1[$field])) ? $item_1[$field] : NULL;
-            $value_2 = (isset($item_2[$field])) ? $item_2[$field] : NULL;
-
+            
+            $value_1 = array_get($item_1, $field);
+            $value_2 = array_get($item_2, $field);
+        
             return Helper::compareValues($value_1, $value_2);
         });
 
@@ -170,9 +187,8 @@ class TaxonomySet
         foreach ($this->data as $key => $item) {
             $this->data[$key]['first']         = ($i === 1);
             $this->data[$key]['last']          = ($i === $count);
-
+            
             $this->data[$key]['count']         = $i;
-            $this->data[$key]['results']       = $item['content']->count();
             $this->data[$key]['total_results'] = $count;
 
             $i++;

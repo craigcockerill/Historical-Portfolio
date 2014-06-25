@@ -12,8 +12,8 @@ class Plugin_truncate extends Plugin
     public function marker()
     {
         $marker = $this->fetchParam('marker', '<!--more-->');
-        $ending = $this->fetchParam('ending', FALSE);
-        $url    = $this->fetchParam('url', NULL);
+        $ending = $this->fetchParam('ending', false, null, false, false);
+        $url    = $this->fetchParam('url', null, null, false, false);
 
         $this->content = Parse::contextualTemplate($this->content, array(), $this->context);
         $pos = stripos($this->content, $marker);
@@ -31,7 +31,7 @@ class Plugin_truncate extends Plugin
     public function characters()
     {
         $limit  = $this->fetchParam('limit', NULL);
-        $ending = $this->fetchParam('ending', '...');
+        $ending = $this->fetchParam('ending', '...', null, false, false);
 
         $this->content = Parse::contextualTemplate($this->content, array(), $this->context);
 
@@ -48,7 +48,7 @@ class Plugin_truncate extends Plugin
     public function words()
     {
         $limit  = $this->fetchParam('limit', NULL);
-        $ending = $this->fetchParam('ending', '...');
+        $ending = $this->fetchParam('ending', '...', null, false, false);
 
         $this->content = Parse::contextualTemplate($this->content, array(), $this->context);
 

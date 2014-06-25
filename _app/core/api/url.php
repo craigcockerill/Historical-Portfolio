@@ -54,6 +54,18 @@ class URL
 
 
     /**
+     * Creates a full URL from a local one, assumes you've accounted for the site's root in a subfolder
+     * 
+     * @param string  $url  URL to make full
+     * @return string
+     */
+    public static function makeFull($url)
+    {
+        return self::tidy(Config::getSiteURL() . '/' . $url);
+    }
+
+
+    /**
      * Redirect visitor to a specified URL
      *
      * @param string  $url  URL to redirect to
@@ -159,5 +171,17 @@ class URL
         
         // return appended URL
         return $url . $delimiter . $key . '=' . urlencode($value);
+    }
+    
+    
+    /**
+     * Prepends the site's configured site root onto given $url
+     * 
+     * @param string  $url  URL to prepend
+     * @return string
+     */
+    public static function prependSiteRoot($url)
+    {
+        return Path::tidy(Config::getSiteRoot() . $url);
     }
 }

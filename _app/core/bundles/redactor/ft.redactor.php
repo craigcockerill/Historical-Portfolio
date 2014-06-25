@@ -1,13 +1,6 @@
 <?php
 class Fieldtype_redactor extends Fieldtype {
 
-    var $meta = array(
-        'name'       => 'Redactor',
-        'version'    => '1.2.2',
-        'author'     => 'Statamic',
-        'author_url' => 'http://statamic.com'
-    );
-
     static $field_settings;
 
     function render() {

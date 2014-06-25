@@ -116,7 +116,7 @@ class Plugin_pages extends Plugin
             return Parse::template($this->content, array('no_results' => true));
         }
 
-        return Parse::tagLoop($this->content, $content_set->get());
+        return Parse::tagLoop($this->content, $content_set->get(), true, $this->context);
     }
 
 

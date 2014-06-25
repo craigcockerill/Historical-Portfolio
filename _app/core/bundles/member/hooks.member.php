@@ -24,7 +24,7 @@ class Hooks_member extends Hooks
         // test for a valid login
         if (Auth::login($username, $password, $remember)) {
             $this->flash->set('login_success', 'Member logged in.');
-            URL::redirect(URL::assemble(Config::getSiteRoot(), $return));
+            URL::redirect($return);
         } else {
             $this->flash->set('login_error', 'Invalid login.');
             $this->flash->set('old_values', $_POST);
@@ -57,7 +57,8 @@ class Hooks_member extends Hooks
         $site_root   = Config::getSiteRoot();
         $referrer    = Request::getReferrer();
         $token       = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING);
-        $home        = $this->fetchConfig('member_home', $site_root, null, false, false);
+        $return      = filter_input(INPUT_POST, 'return', FILTER_SANITIZE_STRING);
+        $return        = ($return) ? $return : $this->fetchConfig('member_home', $site_root, null, false, false);
         $auto_login  = (bool) filter_input(INPUT_POST, 'auto_login', FILTER_SANITIZE_NUMBER_INT);
 
         // validate form token
@@ -68,7 +69,7 @@ class Hooks_member extends Hooks
 
         // is user logged in?
         if (Auth::isLoggedIn()) {
-            URL::redirect($home);
+            URL::redirect($return);
         }
         
         // get configurations
@@ -102,7 +103,14 @@ class Hooks_member extends Hooks
             
             // set value
             $value = filter_input(INPUT_POST, $field, FILTER_SANITIZE_STRING);
-            $member->set($field, $value);
+            
+            // don't store this value if `save_value` is set to `false`
+            if (array_get($options, 'save_value', true)) {
+                $member->set($field, $value);
+            }
+            
+            // add to submissions, including non-save_value fields because this
+            // is the list that will be validated
             $submission[$field] = $value;
         }
         
@@ -173,7 +181,7 @@ class Hooks_member extends Hooks
             $this->runHook('registration_complete', null, null, $member);
             
             // redirect to member home
-            URL::redirect($home);
+            URL::redirect($return);
         }
     }
 
@@ -202,10 +210,11 @@ class Hooks_member extends Hooks
         $role_definitions = $this->fetchConfig('role_definitions');
         
         // who are we editing?
-        $username = Helper::pick(filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING), $member->get('username'));
+        $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+        $username = (!$username) ? $member->get('username') : $username;
         
         // if the user isn't the current user, ensure that's allowed
-        if ($username != $member->get('username')) {
+        if ($username !== $member->get('username')) {
             // username is different from current user
             if (!array_get($role_definitions, 'edit_other_users', null) || !$member->hasRole($role_definitions['edit_other_users'])) {
                 // this user does not have permission to do this
@@ -226,14 +235,28 @@ class Hooks_member extends Hooks
         // loop through allowed fields, validating and updating
         foreach ($allowed_fields as $field => $options) {
             if (!isset($_POST[$field])) {
-                // field wasn't set, skip it
-                continue;
+                // was this username? that can be included separately
+                if ($field === 'username') {
+                    $value = $username;
+                } else {
+                    // field wasn't set, skip it
+                    continue;
+                }
+            } else {
+                // set value
+                $value = filter_input(INPUT_POST, $field, FILTER_SANITIZE_STRING);
             }
-            
+
             // set value
-            $value = filter_input(INPUT_POST, $field, FILTER_SANITIZE_STRING);
             $old_values[$field] = $value;
-            $member->set($field, $value);
+
+            // don't store this value if `save_value` is set to `false`
+            if (array_get($options, 'save_value', true)) {
+                $member->set($field, $value);
+            }
+
+            // add to submissions, including non-save_value fields because this
+            // is the list that will be validated
             $submission[$field] = $value;
         }
         

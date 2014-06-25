@@ -22,8 +22,7 @@ class Tasks extends Addon
      */
     public function define()
     {
-        $this->log->error("A task file exists, but no tasks were defined.");
-        throw new Exception("A task file exists, but no tasks were defined.");
+        $this->log->debug("A task file exists, but no tasks were defined.");
     }
 
 

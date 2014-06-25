@@ -257,19 +257,35 @@ abstract class Addon
     public function getConfig()
     {
         $config = array();
+        $environment = strtolower(Environment::get());
+        $to_parse = '';
 
         // load defaults if they exist
         if (File::exists($file = $this->getAddonLocation() . 'default.yaml')) {
-            $config = YAML::parse($file);
+            $to_parse .= File::get($file) . "\n\n";
         }
 
         // load config
         if (File::exists($file = Config::getConfigPath() . '/bundles/' . $this->addon_name . '/' . $this->addon_name . '.yaml')) {
-            $config = YAML::parseFile($file) + $config;
+            $to_parse .= File::get($file) . "\n\n";
         } elseif (File::exists($file = Config::getConfigPath() . '/add-ons/' . $this->addon_name . '/' . $this->addon_name . '.yaml')) {
-            $config = YAML::parseFile($file) + $config;
+            $to_parse .= File::get($file) . "\n\n";
         } elseif (File::exists($file = Config::getConfigPath() . '/add-ons/' . $this->addon_name . '.yaml')) {
-            $config = YAML::parseFile($file) + $config;
+            $to_parse .= File::get($file) . "\n\n";
+        }
+        
+        // load environment-specific config if it exists
+        if ($environment) {
+            if (File::exists($file = Config::getConfigPath() . '/bundles/' . $this->addon_name . '/' . $environment . '.yaml')) {
+                $to_parse .= File::get($file) . "\n\n";
+            } elseif (File::exists($file = Config::getConfigPath() . '/add-ons/' . $this->addon_name . '/' . $environment . '.yaml')) {
+                $to_parse .= File::get($file) . "\n\n";
+            }
+        }
+        
+        // did we find something to parse?
+        if ($to_parse) {
+            $config = YAML::parse($to_parse);
         }
 
         return $config;
@@ -313,7 +329,7 @@ abstract class Addon
      *
      * @param string  $keys  Key of value to retrieve
      * @param mixed  $default  Default value if no value is found
-     * @param string  $validity_check  Allows a boolean callback function to validate parameter
+     * @param callable  $validity_check  Allows a boolean callback function to validate parameter
      * @param boolean  $is_boolean  Indicates parameter is boolean
      * @param boolean  $force_lower  Force the parameter's value to be lowercase?
      * @return mixed
@@ -336,7 +352,7 @@ abstract class Addon
                     }
                 }
     
-                if (is_null($validity_check) || (!is_null($validity_check) && function_exists($validity_check) && $validity_check($value) === true)) {
+                if (is_null($validity_check) || ($validity_check && is_callable($validity_check) && $validity_check($value) === true)) {
                     // account for yes/no parameters
                     if ($is_boolean === true) {
                         return !in_array(strtolower($value), array("no", "false", "0", "", "-1"));
@@ -1249,7 +1265,7 @@ class ContextualCache extends ContextualObject
 
         $path  = $this->contextualize($folder . "/");
 	    
-	  if ($folder && !Folder::exists($path)) {
+	  if (!Folder::exists($path)) {
 		  return;
 	  }
 	    
@@ -1277,7 +1293,7 @@ class ContextualCache extends ContextualObject
         $this->isValidFilename($folder);
         $path = $this->contextualize($folder . "/");
 
-        if ($folder && !Folder::exists($path)) {
+        if (!Folder::exists($path)) {
             return;
         }
 
@@ -1389,9 +1405,9 @@ class ContextualCSS extends ContextualObject
         $file_location = Config::getAddOnPath($this->context->getAddonName()) . '/';
 
         if (File::exists(APP_PATH . $bundle_location . $file)) {
-            return URL::assemble(Config::getSiteRoot(), $file_location . $file);
+            return URL::assemble(Config::getSiteRoot(), ENVIRONMENT_PATH_PREFIX, $file_location . $file);
         } elseif (File::exists(APP_PATH . $bundle_location . 'css/' . $file)) {
-            return URL::assemble(Config::getSiteRoot(), $file_location, 'css', $file);
+            return URL::assemble(Config::getSiteRoot(), ENVIRONMENT_PATH_PREFIX, $file_location, 'css', $file);
         } elseif (File::exists(BASE_PATH . $file_location . $file)) {
             return URL::assemble(Config::getSiteRoot(), $file_location . $file);
         } elseif (File::exists(BASE_PATH . $file_location . 'css/' . $file)) {
@@ -1468,9 +1484,9 @@ class ContextualJS extends ContextualObject
         $file_location = Config::getAddOnPath($this->context->getAddonName()) . '/';
 
         if (File::exists(APP_PATH . $bundle_location . $file)) {
-            return URL::assemble(Config::getSiteRoot(), $file_location . $file);
+            return URL::assemble(Config::getSiteRoot(), ENVIRONMENT_PATH_PREFIX, $file_location . $file);
         } elseif (File::exists(APP_PATH . $bundle_location . 'js/' . $file)) {
-            return URL::assemble(Config::getSiteRoot(), $file_location, 'js', $file);
+            return URL::assemble(Config::getSiteRoot(), ENVIRONMENT_PATH_PREFIX, $file_location, 'js', $file);
         } elseif (File::exists(BASE_PATH . $file_location . $file)) {
             return URL::assemble(Config::getSiteRoot(), $file_location . $file);
         } elseif (File::exists(BASE_PATH . $file_location . 'js/' . $file)) {
@@ -1516,9 +1532,9 @@ class ContextualAssets extends ContextualObject
         $file_location = Config::getAddOnPath($this->context->getAddonName()) . '/';
 
         if (File::exists(APP_PATH . $bundle_location . $file)) {
-            return URL::assemble(Config::getSiteRoot(), $file_location, $file);
+            return URL::assemble(Config::getSiteRoot(), ENVIRONMENT_PATH_PREFIX, $file_location, $file);
         } elseif (File::exists(APP_PATH . $bundle_location . 'assets/' . $file)) {
-            return URL::assemble(Config::getSiteRoot(), $file_location, 'assets', $file);
+            return URL::assemble(Config::getSiteRoot(), ENVIRONMENT_PATH_PREFIX, $file_location, 'assets', $file);
         } elseif (File::exists(BASE_PATH . $file_location . $file)) {
             return URL::assemble(Config::getSiteRoot(), $file_location, $file);
         } elseif (File::exists(BASE_PATH . $file_location . 'assets/' . $file)) {

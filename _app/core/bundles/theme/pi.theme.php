@@ -18,19 +18,23 @@ class Plugin_theme extends Plugin
         $extensions = array(".html", ".md", ".markdown", ".textile");
         $html     = null;
 
-
         if ($src) {
             foreach ($extensions as $extension) {
                 $full_src = Path::assemble(BASE_PATH, $this->theme_root, 'partials', ltrim($src . $extension, '/'));
 
                 if (File::exists($full_src)) {
-
                     Statamic_View::$_dataStore = $this->attributes + Statamic_View::$_dataStore;
 
                     if ($this->fetchParam('use_context', false, false, true, false)) {
-                        $html = Parse::contextualTemplate(file_get_contents($full_src), Statamic_View::$_dataStore, $this->context, 'Statamic_View::callback');
+                        // to use context, we only want to pass the attributes as
+                        // the current data, as those will override into the context
+                        // set of data; if we were to include all of ::$_dataStore, 
+                        // we run into the issue where all of the global-level variables
+                        // are overriding variables in context, when the variables in
+                        // context are more accurate scope-wise at this point in the parse
+                        $html = Parse::contextualTemplate(file_get_contents($full_src), $this->attributes, $this->context, array('statamic_view', 'callback'), true);
                     } else {
-                        $html = Parse::template(file_get_contents($full_src), Statamic_View::$_dataStore, 'Statamic_View::callback');
+                        $html = Parse::template(file_get_contents($full_src), Statamic_View::$_dataStore);
                     }
 
                     // parse contents if needed
@@ -56,7 +60,7 @@ class Plugin_theme extends Plugin
         $src  = $this->fetchParam('src', Config::getTheme() . '.js', null, false, false);
         $file = $this->theme_path . $this->theme_assets_path . $src;
 
-        return $this->site_root . $file;
+        return URL::assemble($this->site_root, $file);
     }
 
     # Usage example: {{ theme:js src="jquery" }}
@@ -75,8 +79,10 @@ class Plugin_theme extends Plugin
         if ($cache_bust && File::exists($file)) {
             $file .= '?v=' . $last_modified = filemtime($file);
         }
+        
+        $filename = URL::assemble($this->site_root, $file);
 
-        return ($tag) ? '<script src="' . $this->site_root . $file . '"></script>' : $this->site_root . $file;
+        return ($tag) ? '<script src="' . $filename . '"></script>' : $filename;
     }
 
     # Usage example: {{ theme:css src="primary" }}
@@ -96,8 +102,10 @@ class Plugin_theme extends Plugin
         if ($cache_bust && File::exists($file)) {
             $file .= '?v=' . $last_modified = filemtime($file);
         }
+        
+        $filename = URL::assemble($this->site_root, $file);
 
-        return ($tag) ? '<link href="' . $this->site_root . $file . '" rel="stylesheet">' : $this->site_root . $file;
+        return ($tag) ? '<link href="' . $filename . '" rel="stylesheet">' : $filename;
     }
 
     # Usage example: {{ theme:img src="logo.png" }}
@@ -116,7 +124,9 @@ class Plugin_theme extends Plugin
         if ($cache_bust && File::exists($file)) {
             $file .= '?v=' . $last_modified = filemtime($file);
         }
+        
+        $filename = URL::assemble($this->site_root, $file);
 
-        return ($tag) ? '<img src="' . $this->site_root . $file . '" ' . $alt . '>' : $this->site_root . $file;
+        return ($tag) ? '<img src="' . $filename . '" ' . $alt . '>' : $filename;
     }
 }

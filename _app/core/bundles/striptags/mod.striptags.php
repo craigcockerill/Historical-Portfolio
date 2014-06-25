@@ -82,6 +82,7 @@ class Modifier_striptags extends Modifier
         "legend",
         "li",
         "link",
+        "main",
         "mark",
         "map",
         "menu",

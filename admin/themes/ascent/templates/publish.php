@@ -31,6 +31,7 @@
       <input type="hidden" name="page[original_datestamp]" value="<?php print $original_datestamp ?>" />
       <input type="hidden" name="page[original_timestamp]" value="<?php print $original_timestamp ?>" />
       <input type="hidden" name="page[original_numeric]" value="<?php print $original_numeric ?>" />
+      <input type="hidden" name="return" value="<?php print $return ?>" />
 
       <?php if (isset($new)): ?>
         <input type="hidden" name="page[new]" value="1" />
@@ -63,7 +64,8 @@
           "instructions" => array(
             "above" => null,
             "below" => null
-          )
+          ),
+          "display" => Localization::fetch('title')
         );
 
         if (isset($fields) && is_array($fields) && isset($fields['title'])) {
@@ -79,11 +81,25 @@
               }
             }
           }
+            
+          if (isset($fields['title']['display'])) {
+            $title_details['display'] = $fields['title']['display'];
+          }
         }
         ?>
 
         <div class="input-block input-text required">
-          <label for="publish-title"><?php echo Localization::fetch('title') ?></label>
+            <?php
+            if ($title_details['display']) {
+                ?>
+                <label for="publish-title"><?php echo $title_details['display']; ?></label>
+                <?php
+            } else {
+                ?>
+                <label for="publish-title" style="position: absolute; left: -999em; width: 1em; overflow: hidden;"><?php echo Localization::fetch('title') ?></label>
+                <?php
+            }
+            ?>
           <?php
           if ($title_details['instructions']['above']) {
             echo "<small>{$title_details['instructions']['above']}</small>";
@@ -100,7 +116,7 @@
         <?php if ($slug !== '/'): ?>
         <div class="input-block input-text required<?php if (array_get($fields, 'slug:hide', false) === true):?> hidden<?php endif ?>">
           <label for="publish-slug"><?php echo Localization::fetch('slug') ?></label>
-          <input type="text" id="publish-slug" data-required="true" tabindex="<?php print tabindex(); ?>" class="text<?php if (isset($new)): ?> auto-slug <?php endif ?>" name="page[meta][slug]" value="<?php print $slug ?>" />
+          <input type="text" id="publish-slug" data-required="true" tabindex="<?php print tabindex(); ?>" class="text<?php if (isset($new)): ?> new-slug <?php endif ?>" name="page[meta][slug]" value="<?php print $slug ?>" />
         </div>
         <?php else: ?>
           <input type="hidden" id="publish-slug" tabindex="<?php print tabindex(); ?>" name="page[meta][slug]" value="<?php print $slug ?>" />

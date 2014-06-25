@@ -11,33 +11,63 @@
  *
  *    // Return a default from if the specified item doesn't exist
  *    $name = array_get($array, 'user:name', 'Batman');
+ * 
+ *    // Return the first found key, otherwise a default
+ *    $name = array_get($array, array('user:name', 'user:first_name'), 'Bruce');
  * </code>
  *
  * @param  array   $array
- * @param  string  $key
+ * @param  string|array  $key
  * @param  mixed   $default
  * @return mixed
  */
-function array_get($array, $key, $default = null)
-{
-  if (is_null($key)) return $array;
-
-  // To retrieve the array item using dot syntax, we'll iterate through
-  // each segment in the key and look for that value. If it exists, we
-  // will return it, otherwise we will set the depth of the array and
-  // look for the next segment.
-  foreach (explode(':', $key) as $segment)
-  {
-    if ( ! is_array($array) or ! array_key_exists($segment, $array))
-    {
-      return Helper::resolveValue($default);
+function array_get($array, $key, $default = null) {
+    if (is_null($key)) return $array;
+    $keys = Helper::ensureArray($key);
+    
+    // short-circuit
+    if (!is_array($array)) {
+        return Helper::resolveValue($default);
     }
+    
+    // a flag to remember whether something has been found or not
+    $found = false;
 
-    $array = $array[$segment];
-  }
+    // To retrieve the array item using dot syntax, we'll iterate through
+    // each segment in the key and look for that value. If it exists, we
+    // will return it, otherwise we will set the depth of the array and
+    // look for the next segment.
+    foreach ($keys as $key) {
+        foreach (explode(':', $key) as $segment) {
+            if (!is_array($array) || !array_key_exists($segment, $array)) {
+                // did we not find something? mark `found` as `false`
+                $found = false;
+                break;
+            }
 
-  return $array;
+            // we found something, although not sure if this is the last thing,
+            // mark `found` as `true` and let the outer loop handle it if this
+            // *is* the last thing in the list
+            $found = true;
+            $array = $array[$segment];
+        }
+        
+        // if `found` is `true`, the inner loop found something worth returning,
+        // which means that we're done here
+        if ($found) {
+            break;
+        }
+    }
+    
+    if ($found) {
+        // `found` is `true`, we found something, return that
+        return $array;
+    } else {
+        // `found` isn't `true`, return the default
+        return Helper::resolveValue($default);
+    }
 }
+
 
 /**
  * Set an array item to a given value using "colon" notation.
@@ -146,6 +176,7 @@ function autoload_statamic($class) {
         APP_PATH . '/core/api/',
         APP_PATH . '/core/extend/',
         APP_PATH . '/core/content/',
+        APP_PATH . '/core/private_api/',
         APP_PATH . '/core/members/',
         APP_PATH . '/core/',
         APP_PATH . '/core/bundles/',

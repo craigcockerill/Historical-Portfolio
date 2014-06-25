@@ -39,6 +39,6 @@ class Plugin_taxonomy extends Plugin
 
         }
         // results found, parse the tag loop with our content
-        return Parse::tagLoop($this->content, $output);
+        return Parse::tagLoop($this->content, $output, true, $this->context);
     }
 }

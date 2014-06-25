@@ -11,6 +11,7 @@ class ContentService
     public static $structure;
     public static $cache_loaded = false;
     public static $structure_loaded = false;
+    public static $parent_cache = array();
 
 
     /**
@@ -38,6 +39,21 @@ class ContentService
             Log::fatal('Could not find or access your cache. Try checking your file permissions.', 'core', 'ContentService');
             throw new Exception('Could not find or access your cache. Try checking your file permissions.');
         }
+    }
+
+
+    /**
+     * Reset the cached caches
+     *
+     * @return void
+     */
+    public static function resetCaches()
+    {
+        self::$cache = null;
+        self::$structure = null;
+        self::$parent_cache = array();
+        self::$cache_loaded = false;
+        self::$structure_loaded = false;
     }
 
 
@@ -189,6 +205,30 @@ class ContentService
             if (in_array($url, $exclude)) {
                 continue;
             }
+            
+            // get parent url
+            $parent_url = substr($url, 0, strrpos($url, '/'));
+            $parent_url = ($parent_url == "") ? Config::getSiteRoot() : $parent_url;
+            
+            // look up parent data in cache
+            if (!isset(self::$parent_cache[$parent_url])) {
+                // doesn't exist, load it up
+                $parent_data = Content::get($parent_url, $include_content, false);
+
+                if ($include_content) {
+                    // give them everything
+                    $parent = $parent_data;
+                } else {
+                    // just the bare necessities 
+                    $parent = array(
+                        'title' => isset($parent_data['title']) ? $parent_data['title'] : '',
+                        'url'   => isset($parent_data['url']) ? $parent_data['url'] : ''
+                    );
+                }
+                
+                // now stick this in the cache for next time
+                self::$parent_cache[$parent_url] = $parent;
+            }
 
             // get information
             $content = Content::get($url, $include_content, false);
@@ -202,12 +242,13 @@ class ContentService
                 'depth' => $current_depth,
                 'children' => self::getContentTree($url, $depth - 1, $folders_only, $include_entries, $show_hidden, $include_content, $exclude),
                 'is_current' => (URL::getCurrent() == $url),
-                'is_parent' => (URL::getCurrent() != $url && Pattern::startsWith(URL::getCurrent(), $url)),
+                'is_parent' => (URL::getCurrent() != $url && Pattern::startsWith(URL::getCurrent(), $url . '/')),
                 'is_entry' => $data['is_entry'],
                 'is_page' => $data['is_page'],
                 'is_folder' => ($data['type'] == 'folder'),
                 'order_key' => $data['order_key'],
-                'sub_order_key' => $data['sub_order_key']
+                'sub_order_key' => $data['sub_order_key'],
+                'parent' => array(self::$parent_cache[$parent_url])
             );
 
             // if we're including content, merge that in
@@ -232,6 +273,9 @@ class ContentService
             // return 1 or 0 or -1, whatever we ended up with
             return $result;
         });
+
+        // re-key the array
+        $output = array_values($output);
 
         // return what we know
         return $output;

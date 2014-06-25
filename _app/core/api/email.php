@@ -187,13 +187,17 @@ class Email
                 $email->FromName = $attributes['from'];
                 $email->Subject  = $attributes['subject'];
 
-                if (isset($attributes['text'])) {
-                    $email->AltBody = $attributes['text'];
-                }
-
                 if (isset($attributes['html'])) {
                     $email->Body = $attributes['html'];
                     $email->IsHTML(true);
+
+                    if (isset($attributes['text'])) {
+                        $email->AltBody = $attributes['text'];
+                    }
+
+                } elseif (isset($attributes['text'])) {
+                    $email->Body = $attributes['text'];
+                    $email->IsHTML(false);
                 }
 
                 if (isset($attributes['cc'])) {

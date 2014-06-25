@@ -67,7 +67,7 @@ class Fieldtype_suggest extends Fieldtype
             $content_set = ContentService::getContentByFolders(array($folder));
 
             $content_set->filter(array(
-                    'show_hidden' => array_get($config, 'show_all', false),
+                    'show_hidden' => array_get($config, array('show_hidden', 'show_all'), false),  // show_all is legacy
                     'show_drafts' => array_get($config, 'show_drafts', false),
                     'since'       => array_get($config, 'since'),
                     'until'       => array_get($config, 'until'),

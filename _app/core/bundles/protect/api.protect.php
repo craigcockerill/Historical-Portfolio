@@ -48,9 +48,17 @@ class API_protect extends API
         $scheme = $data['_protect'];
 
         // determine URLs
-        $login_url      = array_get($scheme, 'login_url', $this->fetchConfig('login_url', '/', null, false, false));
-        $no_access_url  = array_get($scheme, 'no_access_url', $this->fetchConfig('no_access_url', '/', null, false, false));
-        $password_url   = array_get($scheme, 'password_form_url', $this->fetchConfig('password_url', '/', null, false, false));
+        $login_url       = URL::prependSiteRoot(array_get($scheme, 'login_url', $this->fetchConfig('login_url', '/', null, false, false)));
+        $no_access_url   = URL::prependSiteRoot(array_get($scheme, 'no_access_url', $this->fetchConfig('no_access_url', '/', null, false, false)));
+        $password_url    = URL::prependSiteRoot(array_get($scheme, 'password_form_url', $this->fetchConfig('password_url', '/', null, false, false)));
+        
+        // support external log-in systems
+        $require_member  = array_get($scheme, 'require_member', $this->fetchConfig('require_member', true, null, true, false));
+        $return_variable = array_get($scheme, 'return_variable', $this->fetchConfig('return_variable', 'return', null, false, false));
+        $use_full_url    = array_get($scheme, 'use_full_url', $this->fetchConfig('use_full_url', false, null, true, false));
+        
+        // get the current URL
+        $current_url     = ($use_full_url) ? URL::tidy(Config::getSiteURL() . '/' . URL::getCurrent()) : URL::getCurrent();
 
         // store if we've matched
         $match = false;
@@ -70,7 +78,7 @@ class API_protect extends API
 
             // check for passwords
             if (!$this->evaluatePassword($url)) {
-                URL::redirect(URL::appendGetVariable($form_url, 'return', URL::getCurrent()), 302);
+                URL::redirect(URL::appendGetVariable($form_url, $return_variable, $current_url), 302);
                 exit();
             }
 
@@ -95,9 +103,10 @@ class API_protect extends API
                     throw new Exception('The `_protect` field is set for [' . $data['url'] . '](' . $data['url'] . '), but the configuration given could not be parsed. For caution’s sake, *everyone* is being blocked from this content.');
                 }
 
-                // determine if there's a current user
-                if (!Auth::getLoggedInMember()) {
-                    URL::redirect(URL::appendGetVariable($login_url, 'return', URL::getCurrent()), 302);
+                // if $require_member is true, do a check up-front to see if
+                // this user is currently logged in
+                if ($require_member && !Auth::isLoggedIn()) {
+                    URL::redirect(URL::appendGetVariable($login_url, $return_variable, $current_url), 302);
                     exit();
                 }
 
@@ -111,11 +120,8 @@ class API_protect extends API
 
                 // send to no access page if user didn't match and needed to, or did and shouldn't have
                 if ((!$match && $type === 'allow') || ($match && $type === 'deny')) {
-                    try {
-                        URL::redirect($no_access_url, 302);
-                    } catch (Exception $e) {
-                        // nothing
-                    }
+                    URL::redirect($no_access_url, 302);
+                    exit();
                 }
             } catch (\Slim\Exception\Stop $e) {
                 throw $e;
@@ -128,8 +134,8 @@ class API_protect extends API
             }
         }
     }
-    
-    
+
+
     /**
      * Evaluates a password for a given $url
      * 

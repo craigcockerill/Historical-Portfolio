@@ -397,71 +397,71 @@ body {
       max-width: 300px; } }
 
 .col-1-3 {
-  display: block;
   float: left;
+  display: block;
   margin-right: 2.35765%;
   width: 31.76157%; }
   .col-1-3:last-child {
     margin-right: 0; }
   @media screen and (max-width: 768px) {
     .col-1-3 {
-      display: block;
       float: left;
+      display: block;
       margin-right: 4.82916%;
       width: 47.58542%; }
       .col-1-3:last-child {
         margin-right: 0; } }
   @media screen and (max-width: 500px) {
     .col-1-3 {
-      display: block;
       float: left;
+      display: block;
       margin-right: 16.03631%;
       width: 100%; }
       .col-1-3:last-child {
         margin-right: 0; } }
 
 .col-2-3 {
-  display: block;
   float: left;
+  display: block;
   margin-right: 2.35765%;
   width: 65.88078%; }
   .col-2-3:last-child {
     margin-right: 0; }
   @media screen and (max-width: 768px) {
     .col-2-3 {
-      display: block;
       float: left;
+      display: block;
       margin-right: 4.82916%;
       width: 100%; }
       .col-2-3:last-child {
         margin-right: 0; } }
   @media screen and (max-width: 500px) {
     .col-2-3 {
-      display: block;
       float: left;
+      display: block;
       margin-right: 16.03631%;
       width: 100%; }
       .col-2-3:last-child {
         margin-right: 0; } }
   .col-2-3 .col-1-3 {
-    display: block;
     float: left;
+    display: block;
     margin-right: 3.57866%;
     width: 48.21067%; }
     .col-2-3 .col-1-3:last-child {
       margin-right: 0; }
     @media screen and (max-width: 768px) {
       .col-2-3 .col-1-3 {
-        display: block;
         float: left;
+        display: block;
         margin-right: 4.82916%;
         width: 47.58542%; }
         .col-2-3 .col-1-3:last-child {
           margin-right: 0; } }
     @media screen and (max-width: 500px) {
       .col-2-3 .col-1-3 {
-        display: block;
         float: left;
+        display: block;
         margin-right: 16.03631%;
         width: 100%; }
         .col-2-3 .col-1-3:last-child {
@@ -743,31 +743,35 @@ header {
     /* Firefox all */
     -ms-user-select: none;
     /* IE 10+ */
-    display: block;
     float: left;
+    display: block;
     margin-right: 2.35765%;
     width: 31.76157%; }
     #projects li:last-child {
       margin-right: 0; }
     #projects li:nth-child(3n) {
       margin-right: 0; }
+    #projects li:nth-child(3n+1) {
+      clear: left; }
     @media screen and (max-width: 768px) {
       #projects li {
         margin-bottom: 4.82916%;
-        display: block;
         float: left;
+        display: block;
         margin-right: 4.82916%;
         width: 47.58542%; }
         #projects li:last-child {
           margin-right: 0; }
         #projects li:nth-child(2n) {
           margin-right: 0; }
+        #projects li:nth-child(2n+1) {
+          clear: left; }
         #projects li:nth-of-type(3) {
           margin-right: 4.82916%; } }
     @media screen and (max-width: 500px) {
       #projects li {
-        display: block;
         float: left;
+        display: block;
         margin-right: 16.03631%;
         width: 100%;
         margin-right: 0; }
@@ -971,14 +975,16 @@ header {
   display: inline-block; }
 #project-content p {
   font-size: .9em;
-  display: block;
   float: left;
+  display: block;
   margin-right: 2.35765%;
   width: 31.76157%; }
   #project-content p:last-child {
     margin-right: 0; }
   #project-content p:nth-child(3) {
     margin-right: 0; }
+  #project-content p:nth-child(3+1) {
+    clear: left; }
   @media screen and (max-width: 768px) {
     #project-content p {
       width: 100%; } }
@@ -989,8 +995,8 @@ header {
   margin-bottom: 20px; }
 @media screen and (max-width: 768px) {
   #about .col-1-3 {
-    display: block;
     float: left;
+    display: block;
     margin-right: 4.82916%;
     width: 100%; }
     #about .col-1-3:last-child {
@@ -1122,16 +1128,16 @@ header {
 /* $contact
 -------------------------------------------------- */
 form {
-  display: block;
   float: left;
+  display: block;
   margin-right: 2.35765%;
   width: 48.82117%; }
   form:last-child {
     margin-right: 0; }
   @media screen and (max-width: 768px) {
     form {
-      display: block;
       float: left;
+      display: block;
       margin-right: 4.82916%;
       width: 100%; }
       form:last-child {
@@ -1207,8 +1213,8 @@ input[type="submit"] {
     padding-left: 20px; }
   @media screen and (max-width: 768px) {
     #colophon .col-1-3 {
-      display: block;
       float: left;
+      display: block;
       margin-right: 4.82916%;
       width: 100%; }
       #colophon .col-1-3:last-child {

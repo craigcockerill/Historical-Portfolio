@@ -230,6 +230,6 @@ class Plugin_Get_Files extends Plugin
             $files = array_slice($files, 0, $limit);
         }
 
-        return Parse::tagLoop($this->content, $files, true);
+        return Parse::tagLoop($this->content, $files, true, $this->context);
     }
 }

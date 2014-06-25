@@ -118,7 +118,7 @@ class Plugin_entries extends Plugin
             return Parse::template($this->content, array('no_results' => true));
         }
 
-        return Parse::tagLoop($this->content, $content_set->get());
+        return Parse::tagLoop($this->content, $content_set->get(), false, $this->context);
     }
 
 

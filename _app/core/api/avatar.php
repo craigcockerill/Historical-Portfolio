@@ -20,6 +20,7 @@ class Avatar
         }
         
         self::$gravatar->setAvatarSize($size);
+        self::$gravatar->enableSecureImages();
         return self::$gravatar->buildGravatarURL($email);
     }
 }

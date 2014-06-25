@@ -26,12 +26,12 @@ class Plugin_nav extends Plugin
             $from = Path::tidy(Config::getSiteRoot() . '/' . $from);
         }
 
-        if (!is_array($exclude)) {
+        // standardize excludes
+        if ($exclude && !is_array($exclude)) {
             $exclude = Helper::explodeOptions($exclude, array());
-        }
-        foreach ($exclude as $key => $value) {
-            if (substr($value, 0, 1) !== '/') {
-                $exclude[$key] = '/' . $value;
+            
+            foreach ($exclude as $key => $value) {
+                $exclude[$key] = Path::tidy(Config::getSiteRoot() . '/' . $value);
             }
         }
 
@@ -56,7 +56,7 @@ class Plugin_nav extends Plugin
 
 
     public function exists()
-    {
+    {        
         // grab parameters
         $from             = $this->fetchParam('from', URL::getCurrent());
         $exclude          = $this->fetchParam('exclude', false);
@@ -74,6 +74,15 @@ class Plugin_nav extends Plugin
         // if this doesn't start with the site root, add the site root
         if (!Pattern::startsWith($from, Config::getSiteRoot())) {
             $from = Path::tidy(Config::getSiteRoot() . '/' . $from);
+        }
+
+        // standardize excludes
+        if ($exclude && !is_array($exclude)) {
+            $exclude = Helper::explodeOptions($exclude, array());
+
+            foreach ($exclude as $key => $value) {
+                $exclude[$key] = Path::tidy(Config::getSiteRoot() . '/' . $value);
+            }
         }
 
         // option hash
@@ -116,7 +125,6 @@ class Plugin_nav extends Plugin
 
         // start crumbs
         $crumbs = array();
-        $output = '';
 
         // we only want to show breadcrumbs when we're not on the homepage
         if ($url !== Config::getSiteRoot()) {
@@ -199,6 +207,25 @@ class Plugin_nav extends Plugin
         $include_content  = $this->fetchParam('include_content', false, false, true);
         $show_hidden      = $this->fetchParam('show_hidden', false, null, true);
 
+        // add in left-/ if not present
+        if (substr($from, 0, 1) !== '/') {
+            $from = '/' . $from;
+        }
+
+        // if this doesn't start with the site root, add the site root
+        if (!Pattern::startsWith($from, Config::getSiteRoot())) {
+            $from = Path::tidy(Config::getSiteRoot() . '/' . $from);
+        }
+
+        // standardize excludes
+        if ($exclude && !is_array($exclude)) {
+            $exclude = Helper::explodeOptions($exclude, array());
+
+            foreach ($exclude as $key => $value) {
+                $exclude[$key] = Path::tidy(Config::getSiteRoot() . '/' . $value);
+            }
+        }
+
         // option hash
         $hash = Helper::makeHash($from, $exclude, $max_depth, $include_entries, $folders_only, $include_content, $show_hidden);
 
@@ -211,9 +238,9 @@ class Plugin_nav extends Plugin
         }
 
         if ($this->content) {
-            return count($tree);
+            return Parse::template($this->content, array('count' => count($tree)));
         } elseif (count($tree)) {
-            return Parse::tagLoop($this->content, $tree);
+            return count($tree);
         }
 
         return '';

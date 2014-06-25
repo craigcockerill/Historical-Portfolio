@@ -98,6 +98,40 @@ class Member
 
 
     /**
+     * Checks if a given data field is set
+     * 
+     * @param string  $key  Key to check
+     * @return bool
+     */
+    public function dataKeyExists($key)
+    {
+        if ($key == 'name' || $key == 'username') {
+            return (bool) $this->username;
+        } elseif ($key == 'password') {
+            return (bool) $this->get($key);
+        } else {
+            return isset($this->data[$key]);
+        }
+    }
+
+
+    /**
+     * Unsets a value from the data set
+     * 
+     * @param string  $key  Key to unset
+     * @return void
+     */
+    public function remove($key)
+    {
+        if ($key == 'name' || $key == 'username' || $key == 'password' || $key == 'password_hash') {
+            return;
+        }
+        
+        unset($this->data[$key]);
+    }
+
+
+    /**
      * Gets the gravatar for this member at a given $size
      * 
      * @param int  $size  Size of avatar to retrieve in pixels

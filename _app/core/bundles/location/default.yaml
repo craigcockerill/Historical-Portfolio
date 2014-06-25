@@ -25,20 +25,19 @@ foursquare_client_secret: PRQQA4IOT2S1DDUMFSZI4MDFCKWIRNEMZHJCXZNGCL30G3PC
 foursquare_radius: 200
 
 # map interaction options
-interaction:
-  scroll_wheel_zoom: false
-  double_click_zoom: true
-  box_zoom: true
-  touch_zoom: true
-  draggable: true
+interaction_scroll_wheel_zoom: false
+interaction_double_click_zoom: true
+interaction_box_zoom: true
+interaction_touch_zoom: true
+interaction_draggable: true
+interaction_tap: true
 
-# cloudmade api key
-# feel free to use our key or sign up for your own at http://cloudmade.com
-cloudmade_api_key: 336304a90a064433aee8146c4d6668f5
-
-# cloudmade tile set id to use
-# create your own custom map tiles for free at http://cloudmade.com
-cloudmade_tile_set_id: 997
+# mapping service
+# not all of these options might be used for different services
+mapping_service: openstreetmap
+mapping_service_api_key: 
+mapping_service_style: 
+mapping_service_attribution:
 
 # detects high-density displays and will double the tiles displayed
 detect_retina: false

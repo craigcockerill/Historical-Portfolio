@@ -8,6 +8,11 @@ class Plugin_get_content extends Plugin
         if (!$from) {
             return null;
         }
+
+        // account for subfolder
+        if (strpos($from, Config::getSiteRoot()) !== 0) {
+            $from = Path::tidy(Config::getSiteRoot() . $from);
+        }
         
         $from = Path::addStartingSlash($from);
         $from = (strlen($from) > 1) ? rtrim($from, "/") : $from;
@@ -37,7 +42,7 @@ class Plugin_get_content extends Plugin
 
         // if content is used in this entries loop, parse it
         $parse_content = (bool) preg_match(Pattern::USING_CONTENT, $this->content);
-        return Parse::tagLoop($this->content, $content_set->get($parse_content));
+        return Parse::tagLoop($this->content, $content_set->get($parse_content), false, $this->context);
     }
 
 }

@@ -285,22 +285,24 @@ class Config
     /**
      * Gets the date format
      *
+     * @param string  $default  Optional default format to return
      * @return string
      */
-    public static function getDateFormat()
+    public static function getDateFormat($default=null)
     {
-        return self::get("date_format", "Y-m-d");
+        return self::get("date_format", $default, "Y-m-d");
     }
 
 
     /**
      * Gets the time format
      *
+     * @param string  $default  Optional default format to return
      * @return string
      */
-    public static function getTimeFormat()
+    public static function getTimeFormat($default=null)
     {
-        return self::get("time_format", "h:ia");
+        return self::get("time_format", $default, "h:ia");
     }
 
 
