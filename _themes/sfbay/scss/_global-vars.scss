@@ -2,6 +2,7 @@
 -------------------------------------------------- */
 
 $bg: #fff;
+$spot: #3aca8a;
 $primary: #333;
 $primary-light: rgba(19, 168, 87, .125);
 $grey: #f9f9f9;
@@ -13,12 +14,12 @@ $bg-stripe: url('../img/bg-stripe.png') repeat;
 /* $UTILITIES
 ------------------------- */
 
-.clearfix {
+.cf {
   @include clearfix;
 }
 
 ::selection {
-  background: #e2f5ea; /* Safari */
+  background: #e2f5ea; /* Webkit */
   }
 ::-moz-selection {
   background: #e2f5ea; /* Firefox */
@@ -45,20 +46,19 @@ $bold: 700;
 
 /* $GLOBAL
 -------------------------------------------------- */
-
-html, body {
+html {
   height: 100%;
 }
 
+
 body {
   background: $bg;
-  font-size: 100%;
-  line-height: 1.5em;
+  font-size: 24px;
+  line-height: 36px;
   font-style: normal;
-  font-weight: $regular;
+  font-weight: $light;
   font-family: $copy;
   color: $primary;
-  @include transition(all .2s);
 }
 
 /* $FOUT
@@ -82,8 +82,7 @@ body {
 -------------------------------------------------- */
 
 .wrap {
-  max-width: 1024px;
-  width: 1000px;
+  width: 600px;
 
   @include transition(all .2s);
 
@@ -175,15 +174,17 @@ h3 {
 
 a {
   text-decoration: none;
-  color: $primary;
+  color: $spot;
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility:    hidden;
   -ms-backface-visibility:     hidden;
 
-  @include transition (color .2s);
+  @include transition (all .2s);
 
   &:hover {
-    color: lighten($primary, 25%);
+    color: lighten($spot, 25%);
+    background: $spot;
+    border-radius: 3px;
   }
 }
 

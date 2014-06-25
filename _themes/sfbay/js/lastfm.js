@@ -167,7 +167,7 @@
 
 					// Apply default image if requried
 					if (imgurl == '') imgurl = options.noimage;
-					if (imgurl != '') html += '<a href="'+ url +'" title="Listen to '+ item.name +' on Last.FM"><img src="'+ imgurl +'" alt="'+ item.name +'" /></a>'
+					if (imgurl != '') html += '<a class="artwork" href="'+ url +'" title="Listen to '+ item.name +' on Last.FM"><img src="'+ imgurl +'" alt="'+ item.name +'" /></a>'
 				}
 
 				// Add artist
