@@ -36,10 +36,25 @@
 
 body.meow {
   height: 100%;
-  background: #000;
+  background: #002000;
   color: #3bfc34;
   font-family: 'VT323', sans-serif;
   @include backface-visibility(hidden);
+  position: relative;
+
+  &:after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: url('../img/static.gif') repeat;
+    opacity: 0.05;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: fixed;
+    z-index: -1;
+  }
 
   #name-link {
     width: 87px;
@@ -63,7 +78,7 @@ body.meow {
   }
 
   a:hover {
-    background-color: #3bfc34;
+    background-color: darken(#3bfc34, 25%);
   }
 
   a, #nav-footer li a {

@@ -66,13 +66,13 @@ $(document).ready(function () {
           audioElement.pause();
         } else {
           $('body').addClass('meow');
-          audioElement.setAttribute('src', '_themes/sfbay/mp3/aa.mp3');
+          audioElement.setAttribute('src', '_themes/sfbay/mp3/stage_clear.mp3');
           $.get();
           audioElement.addEventListener("load", function() {
           audioElement.play();
           }, true);
 
-        audioElement.play();
+          audioElement.play();
 
 
         }
