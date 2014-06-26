@@ -1,2 +1,6 @@
 body.meow {
+  height: 100%;
+  color: #fff;
+  @include backface-visibility(hidden);
+
 }

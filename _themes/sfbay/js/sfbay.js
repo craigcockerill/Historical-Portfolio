@@ -59,7 +59,11 @@ $(document).ready(function () {
     $(function() {
     $( window ).konami({
       cheat: function() {
-        alert( 'Cheat code activated!' );
+        if($('body').hasClass('meow')) {
+          $('body').removeClass('meow');
+        } else {
+          $('body').addClass('meow');
+        }
       }
     });
   });

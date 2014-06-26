@@ -5,13 +5,14 @@ $footer-height: 60px;
 $footer-padding: 20px;
 
 footer {
+  margin: 30px 0;
   width: 100%;
   height: $footer-height;
   font-size: 14px;
   line-height: 18px;
   color: $primary;
   font-weight: $light;
-  margin: 30px 0 75px;
+
 
   a {
     float: right;
@@ -19,18 +20,25 @@ footer {
   }
 
   .wrap {
+    padding-top: 15px;
+    border-top: 1px solid lighten($primary, 50%);
+    opacity: .75;
 
     h6 {
-      font-size: 18px;
-      line-height: 24px;
+      font-size: 14px;
+      line-height: 18px;
       font-weight: $light;
       margin: 0 0 6px 0;
       display: inline-block;
 
       @include media($tablet-portrait) {
         display: block;
-        text-align: center;
         border-right: none;
+      }
+
+      @include media($mobile) {
+        font-size: 14px;
+        line-height: 18px;
       }
     }
   }
@@ -59,9 +67,4 @@ footer {
       }
     }
   }
-
-  @include media($tablet-portrait) {
-    display: none;
-  }
-
 }
