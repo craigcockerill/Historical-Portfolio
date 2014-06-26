@@ -57,12 +57,24 @@ $(document).ready(function () {
   =========================================================== */
 
     $(function() {
+    var audioElement = document.createElement('audio');
+
     $( window ).konami({
       cheat: function() {
         if($('body').hasClass('meow')) {
           $('body').removeClass('meow');
+          audioElement.pause();
         } else {
           $('body').addClass('meow');
+          audioElement.setAttribute('src', '_themes/sfbay/mp3/aa.mp3');
+          $.get();
+          audioElement.addEventListener("load", function() {
+          audioElement.play();
+          }, true);
+
+        audioElement.play();
+
+
         }
       }
     });

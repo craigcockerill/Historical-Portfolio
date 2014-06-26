@@ -1,6 +1,73 @@
+@import url(http://fonts.googleapis.com/css?family=VT323);
+
+@include keyframes(flicker) {
+  0% { opacity: 0; }
+
+  // flicker
+  5%  { opacity: .25; }
+  6% { opacity: 1; }
+  11% { opacity: .4; }
+  11.25% { opacity: .6; }
+  11.5% { opacity: .4; }
+  18% { opacity: 1; }
+  18.5% { opacity: .9; }
+  22% { opacity: 1; }
+
+   // flicker
+  38.5% { opacity: 1; }
+  39% { opacity: .8; }
+  42% { opacity: 1; }
+
+  // flicker
+  60% { opacity: 1; }
+  60.5% { opacity: .5; }
+  62% { opacity: .25; }
+  63% { opacity: .7; }
+  63.25% { opacity: .3; }
+  65% { opacity: 1; }
+
+  // flicker
+  73% { opacity: 1; }
+  75% { opacity: .8; }
+  79% { opacity: 1; }
+
+  100% { opacity: 1; }
+}
+
 body.meow {
   height: 100%;
-  color: #fff;
+  background: #000;
+  color: #3bfc34;
+  font-family: 'VT323', sans-serif;
   @include backface-visibility(hidden);
+
+  #name-link {
+    width: 87px;
+    height: 76px;
+    text-align: center;
+    font-family: 'VT323', sans-serif;
+    color: #3bfc34;
+    border-color: #3bfc34;
+  }
+
+  p, #name-link, footer {
+     @include animation( flicker 10s linear infinite );
+  }
+
+  footer .wrap {
+    border-color: #3bfc34;
+
+    h6 {
+      color: #3bfc34;
+    }
+  }
+
+  a:hover {
+    background-color: #3bfc34;
+  }
+
+  a, #nav-footer li a {
+    color: lighten(#3bfc34, 25%);
+  }
 
 }

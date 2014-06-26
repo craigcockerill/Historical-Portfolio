@@ -6,6 +6,7 @@
 /*
  * Corrects `block` display not defined in IE 8/9.
  */
+@import url(http://fonts.googleapis.com/css?family=VT323);
 article,
 aside,
 details,
@@ -520,7 +521,6 @@ header {
 #name-link {
   display: inline-block;
   color: #3aca8a;
-  font-family: "jaf-facitweb", sans-serif;
   font-weight: 400;
   text-decoration: none;
   opacity: 1;
@@ -1089,8 +1089,297 @@ footer {
   #proj-header.fixed {
     position: absolute; } }
 
+@-webkit-keyframes flicker {
+  0% {
+    opacity: 0; }
+
+  5% {
+    opacity: .25; }
+
+  6% {
+    opacity: 1; }
+
+  11% {
+    opacity: .4; }
+
+  11.25% {
+    opacity: .6; }
+
+  11.5% {
+    opacity: .4; }
+
+  18% {
+    opacity: 1; }
+
+  18.5% {
+    opacity: .9; }
+
+  22% {
+    opacity: 1; }
+
+  38.5% {
+    opacity: 1; }
+
+  39% {
+    opacity: .8; }
+
+  42% {
+    opacity: 1; }
+
+  60% {
+    opacity: 1; }
+
+  60.5% {
+    opacity: .5; }
+
+  62% {
+    opacity: .25; }
+
+  63% {
+    opacity: .7; }
+
+  63.25% {
+    opacity: .3; }
+
+  65% {
+    opacity: 1; }
+
+  73% {
+    opacity: 1; }
+
+  75% {
+    opacity: .8; }
+
+  79% {
+    opacity: 1; }
+
+  100% {
+    opacity: 1; } }
+
+@-moz-keyframes flicker {
+  0% {
+    opacity: 0; }
+
+  5% {
+    opacity: .25; }
+
+  6% {
+    opacity: 1; }
+
+  11% {
+    opacity: .4; }
+
+  11.25% {
+    opacity: .6; }
+
+  11.5% {
+    opacity: .4; }
+
+  18% {
+    opacity: 1; }
+
+  18.5% {
+    opacity: .9; }
+
+  22% {
+    opacity: 1; }
+
+  38.5% {
+    opacity: 1; }
+
+  39% {
+    opacity: .8; }
+
+  42% {
+    opacity: 1; }
+
+  60% {
+    opacity: 1; }
+
+  60.5% {
+    opacity: .5; }
+
+  62% {
+    opacity: .25; }
+
+  63% {
+    opacity: .7; }
+
+  63.25% {
+    opacity: .3; }
+
+  65% {
+    opacity: 1; }
+
+  73% {
+    opacity: 1; }
+
+  75% {
+    opacity: .8; }
+
+  79% {
+    opacity: 1; }
+
+  100% {
+    opacity: 1; } }
+
+@-o-keyframes flicker {
+  0% {
+    opacity: 0; }
+
+  5% {
+    opacity: .25; }
+
+  6% {
+    opacity: 1; }
+
+  11% {
+    opacity: .4; }
+
+  11.25% {
+    opacity: .6; }
+
+  11.5% {
+    opacity: .4; }
+
+  18% {
+    opacity: 1; }
+
+  18.5% {
+    opacity: .9; }
+
+  22% {
+    opacity: 1; }
+
+  38.5% {
+    opacity: 1; }
+
+  39% {
+    opacity: .8; }
+
+  42% {
+    opacity: 1; }
+
+  60% {
+    opacity: 1; }
+
+  60.5% {
+    opacity: .5; }
+
+  62% {
+    opacity: .25; }
+
+  63% {
+    opacity: .7; }
+
+  63.25% {
+    opacity: .3; }
+
+  65% {
+    opacity: 1; }
+
+  73% {
+    opacity: 1; }
+
+  75% {
+    opacity: .8; }
+
+  79% {
+    opacity: 1; }
+
+  100% {
+    opacity: 1; } }
+
+@keyframes flicker {
+  0% {
+    opacity: 0; }
+
+  5% {
+    opacity: .25; }
+
+  6% {
+    opacity: 1; }
+
+  11% {
+    opacity: .4; }
+
+  11.25% {
+    opacity: .6; }
+
+  11.5% {
+    opacity: .4; }
+
+  18% {
+    opacity: 1; }
+
+  18.5% {
+    opacity: .9; }
+
+  22% {
+    opacity: 1; }
+
+  38.5% {
+    opacity: 1; }
+
+  39% {
+    opacity: .8; }
+
+  42% {
+    opacity: 1; }
+
+  60% {
+    opacity: 1; }
+
+  60.5% {
+    opacity: .5; }
+
+  62% {
+    opacity: .25; }
+
+  63% {
+    opacity: .7; }
+
+  63.25% {
+    opacity: .3; }
+
+  65% {
+    opacity: 1; }
+
+  73% {
+    opacity: 1; }
+
+  75% {
+    opacity: .8; }
+
+  79% {
+    opacity: 1; }
+
+  100% {
+    opacity: 1; } }
+
 body.meow {
   height: 100%;
-  color: #fff;
+  background: #000;
+  color: #3bfc34;
+  font-family: 'VT323', sans-serif;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden; }
+  body.meow #name-link {
+    width: 87px;
+    height: 76px;
+    text-align: center;
+    font-family: 'VT323', sans-serif;
+    color: #3bfc34;
+    border-color: #3bfc34; }
+  body.meow p, body.meow #name-link, body.meow footer {
+    -webkit-animation: flicker 10s linear infinite;
+    -moz-animation: flicker 10s linear infinite;
+    animation: flicker 10s linear infinite; }
+  body.meow footer .wrap {
+    border-color: #3bfc34; }
+    body.meow footer .wrap h6 {
+      color: #3bfc34; }
+  body.meow a:hover {
+    background-color: #3bfc34; }
+  body.meow a, body.meow #nav-footer li a {
+    color: #b4feb2; }
