@@ -87,7 +87,7 @@ body {
 -------------------------------------------------- */
 
 .wrap {
-  width: 600px;
+  width: 960px;
 
   @include transition(all .2s);
 
@@ -141,6 +141,8 @@ body {
       @include span-columns(2 of 2);
     }
   }
+
+
 
 }
 

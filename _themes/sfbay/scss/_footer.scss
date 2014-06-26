@@ -5,7 +5,7 @@ $footer-height: 60px;
 $footer-padding: 20px;
 
 footer {
-  margin: 30px 0;
+  margin: 31px 0;
   width: 100%;
   height: $footer-height;
   font-size: 14px;
@@ -20,9 +20,13 @@ footer {
   }
 
   .wrap {
-    padding-top: 15px;
-    border-top: 1px solid lighten($primary, 50%);
+
     opacity: .75;
+
+    .col-2-3 {
+      border-top: 1px solid lighten($primary, 50%);
+      padding-top: 15px;
+    }
 
     h6 {
       font-size: 14px;
