@@ -38,12 +38,18 @@ class Helper
      * Creates a random string
      *
      * @param int  $length  Length of string to return
+     * @param bool  $expanded  When true, uses a more complete list of characters
      * @return string
      */
-    public static function getRandomString($length=32)
+    public static function getRandomString($length=32, $expanded=false)
     {
         $string = '';
         $characters = "BCDFGHJKLMNPQRSTVWXYZbcdfghjklmnpqrstvwxwz0123456789";
+        
+        if ($expanded) {
+            $characters = "ABCDEFGHIJKLMNPOQRSTUVWXYZabcdefghijklmnopqrstuvwxwz0123456789!@#$%^&*()~[]{}`';?><,./|+-=_";
+        }
+        
         $upper_limit = strlen($characters) - 1;
 
         for (; $length > 0; $length--) {
@@ -107,6 +113,17 @@ class Helper
         }
 
         return array_map( 'self::objectToArray', $object);
+    }
+
+    public static function prettifyZeroIndexes($array)
+    {
+        if (array_values($array) === $array) {
+            $new_array = array_values($array);
+
+            return array_combine($new_array, array_map('Slug::prettify', $new_array));
+        }
+
+        return $array;
     }
 
 
@@ -274,39 +291,98 @@ class Helper
     /**
      * Parses a mixed folder representation into a standardized array
      *
+     * @deprecated
      * @param mixed  $folders  Folders
      * @return array
      */
     public static function parseForFolders($folders)
     {
-        $output = array();
+        Log::warn('Helper::parseForFolders has been deprecated. Use Parse::pipeList() instead.', 'core', 'api');
+        return Parse::pipeList($folders);
+    }
 
-        // make an array of all options
-        if (is_array($folders)) {
-            foreach ($folders as $folder) {
-                if (strpos($folder, "|") !== false) {
-                    $output = array_merge($output, explode("|", $folder));
+
+    /**
+     * Deep merges arrays better than array_merge_recursive()
+     *
+     * @param arrays  takes two arrays to tango
+     * @return array
+     */
+    public static function &arrayCombineRecursive(array &$array1, &$array2 = null)
+    {
+        $merged = $array1;
+     
+        if (is_array($array2)) {
+            foreach ($array2 as $key => $val) {
+                if (is_array($array2[$key])) {
+                    $merged[$key] = (isset($merged[$key]) && is_array($merged[$key])) ? self::arrayCombineRecursive($merged[$key], $array2[$key]) : $array2[$key];
                 } else {
-                    array_push($output, $folder);
+                    $merged[$key] = $val;
                 }
             }
-        } else {
-            if (strpos($folders, "|") !== false) {
-                $output = explode("|", $folders);
+        }
+     
+      return $merged;
+    }
+    
+    
+    /**
+     * Creates a hash value for the arguments passed
+     * 
+     * @param mixed  ...  Arguments to include in hash
+     * @return string
+     */
+    public static function makeHash()
+    {
+        $hash = Debug::markStart('math', 'hashing');
+        $args = func_get_args();
+        $data = array();
+        
+        // loop through arguments, adding flattened versions to $data
+        foreach ($args as $arg) {
+            if (is_array($arg)) {
+                array_push($data, join('|', $arg));
+            } elseif (is_bool($arg)) {
+                array_push($data, ($arg) ? 'true' : 'false');
             } else {
-                array_push($output, $folders);
+                array_push($data, $arg);
             }
         }
+        
+        // return a hash of the flattened $data array
+        $result = md5(join('%', $data));
+        Debug::markEnd($hash);
+        
+        return $result;
+    }
+    
+    public static function strrpos_count($haystack, $needle, $instance=0)
+    {
+        do {
+            // get the last occurrence in the current haystack
+            $last = strrpos($haystack, $needle);
+            
+            if ($last === false) {
+                return false;
+            }
+            
+            $haystack = substr($haystack, 0, $last);            
+            $instance--;
+        } while ($instance >= 0);
+        
+        return $last;
+    }
 
-        // now fix the array
-        if (!count($output)) {
-            $output = array();
-        } else {
-            $output = array_map(function($item) {
-                return Path::removeStartingSlash($item);
-            }, $output);
-        }
+    /**
+     * Convert a value to camel case.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public static function camelCase($value)
+    {
+        $value = ucwords(str_replace(array('-', '_'), ' ', $value));
 
-        return array_unique($output);
+        return lcfirst(str_replace(' ', '', $value));
     }
 }

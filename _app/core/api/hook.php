@@ -13,6 +13,9 @@ use Symfony\Component\Finder\Finder as Finder;
  */
 class Hook
 {
+    private static $hook_files = array();
+    private static $hooks_found = false;
+    
     /**
      * Run the instance of a given hook
      *
@@ -25,31 +28,42 @@ class Hook
      */
     public static function run($namespace, $hook, $type = NULL, $return = NULL, $data = NULL)
     {
-        // @Todo: Clean this up globally
-        $addons_path = BASE_PATH.Config::getAddOnsPath();
+        $mark_as_init = !self::$hooks_found;
+        
+        if (!self::$hooks_found) {
+            $hash = Debug::markStart('hooks', 'finding');
+            
+            // we went finding
+            self::$hooks_found = true;
 
-        if (Folder::exists($addons_path) && Folder::exists(APP_PATH . '/core/tags')) {
+            // set paths
+            $addons_path   = BASE_PATH . Config::getAddOnsPath();
+            $bundles_path  = APP_PATH . '/core/bundles';
+            $pattern       = '/*/hooks.*.php';
+            
+            // muuulllllti-gloooobbb
+            self::$hook_files = glob('{'.$bundles_path.$pattern.','.$addons_path.$pattern.'}', GLOB_BRACE);
+            
+            Debug::markEnd($hash);
+        }
 
-            $finder = new Finder();
+        $hash = Debug::markStart('hooks', 'running');
+        
+        foreach (self::$hook_files as $file) {
+            $name = substr($file, strrpos($file, '/') + 7);
+            $name = substr($name, 0, strlen($name) - 4);
 
-            $files = $finder->files()
-                ->in($addons_path)
-                ->in(APP_PATH . '/core/tags')
-                ->name("hooks.*.php");
-
-            foreach ($files as $file) {
-
-                require_once $file->getRealPath();
-
-                $class_name = 'Hooks_' . $file->getRelativePath();
-                $hook_class = new $class_name();
+            $class_name = 'Hooks_' . $name;
+            
+            if (!is_callable(array($class_name, $namespace . '__' . $hook), false)) {
+                continue;
+            }
+            
+            try {
+                $hook_class = Resource::loadHooks($name);
 
                 $method = $namespace . '__' . $hook;
-
-                if ( ! method_exists($hook_class, $method)) {
-                    continue;
-                }
-
+    
                 if ($type == 'cumulative') {
                     $response = $hook_class->$method($data);
                     if (is_array($response)) {
@@ -62,10 +76,16 @@ class Hook
                 } else {
                     $hook_class->$method($data);
                 }
+            } catch (Exception $e) {
+                continue;
             }
-        } else {
-            Log::error('Add-ons path not found', 'hooks');
         }
+
+        if ($mark_as_init) {
+            Debug::markMilestone('hooks initialized');
+        }
+        
+        Debug::markEnd($hash);
 
         return $return;
     }

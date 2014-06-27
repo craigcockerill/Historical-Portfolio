@@ -1,7 +1,24 @@
 <?php
 
-const STATAMIC_VERSION = '1.6.4';
+// start measuring
+define("STATAMIC_START", microtime(true));
+
+global $is_debuggable_route;
+$is_debuggable_route = false;
+
+const STATAMIC_VERSION = '1.8';
 const APP_PATH = __DIR__;
+
+// handle the PHP development server
+define("ENVIRONMENT_PATH_PREFIX", (php_sapi_name() === "cli-server") ? "index.php" : "");
+
+
+
+
+// setting this now so that we can do things before the configurations are fully loaded
+// without PHP freaking out in PHP 5.3.x
+date_default_timezone_set('UTC');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,10 +44,18 @@ require_once __DIR__ . '/vendor/SplClassLoader.php';
 */
 
 $packages = array(
-  'Symfony',
   'Buzz',
+  'Carbon',
+  'emberlabs',
+  'Intervention',
+  'Michelf',
+  'Netcarver',
   'Stampie',
-  'Intervention'
+  'Symfony',
+  'Whoops',
+  'Zeuxisoo',
+  'erusev',
+  'Propel'
 );
 
 foreach ($packages as $package) {
@@ -38,97 +63,45 @@ foreach ($packages as $package) {
   $loader->register();
 }
 
-$loader = new SplClassLoader('emberlabs', __dir__.'/vendor/');
-$loader->register();
-
-require_once __DIR__ . '/vendor/PHPMailer/class.phpmailer.php';
+require_once __DIR__ . '/vendor/PHPMailer/PHPMailerAutoload.php';
 
 require_once __DIR__ . '/vendor/Spyc/Spyc.php';
-
-/*
-|--------------------------------------------------------------------------
-| The Markup Languages
-|--------------------------------------------------------------------------
-|
-| Even though Statamic only runs one primary markdown syntax at a time,
-| variable modifiers allow you to parse single variables with any
-| of the available parsers. Thus, we load them all.
-|
-*/
-
-require_once __DIR__ . '/vendor/Markup/markdown.php';
-require_once __DIR__ . '/vendor/Markup/classTextile.php';
-require_once __DIR__ . '/vendor/Markup/smartypants.php';
 
 /*
 |--------------------------------------------------------------------------
 | The Template Parser
 |--------------------------------------------------------------------------
 |
-| Statamic uses a highly modified fork of the Lex parser, created by
+| Statamic uses a *highly* modified fork of the Lex parser, created by
 | Dan Horrigan. Kudos Dan!
 |
 */
 
 require_once __DIR__ . '/vendor/Lex/Parser.php';
 
-/*
-|--------------------------------------------------------------------------
-| The API
-|--------------------------------------------------------------------------
-|
-| The internal-agnostic face of Statamic.
-|
-*/
-
-require_once __DIR__ . '/core/api/cache.php';
-require_once __DIR__ . '/core/api/config.php';
-require_once __DIR__ . '/core/api/content.php';
-require_once __DIR__ . '/core/api/date.php';
-require_once __DIR__ . '/core/api/email.php';
-require_once __DIR__ . '/core/api/environment.php';
-require_once __DIR__ . '/core/api/folder.php';
-require_once __DIR__ . '/core/api/file.php';
-require_once __DIR__ . '/core/api/helper.php';
-require_once __DIR__ . '/core/api/hook.php';
-require_once __DIR__ . '/core/api/html.php';
-require_once __DIR__ . '/core/api/localization.php';
-require_once __DIR__ . '/core/api/parse.php';
-require_once __DIR__ . '/core/api/path.php';
-require_once __DIR__ . '/core/api/session.php';
-require_once __DIR__ . '/core/api/pattern.php';
-require_once __DIR__ . '/core/api/request.php';
-require_once __DIR__ . '/core/api/slug.php';
-require_once __DIR__ . '/core/api/taxonomy.php';
-require_once __DIR__ . '/core/api/theme.php';
-require_once __DIR__ . '/core/api/math.php';
-require_once __DIR__ . '/core/api/url.php';
-require_once __DIR__ . '/core/api/yaml.php';
 
 /*
 |--------------------------------------------------------------------------
-| The Core
+| Internal API & Class Autoloader
 |--------------------------------------------------------------------------
 |
-| This is what makes Statamic tick.
+| An autoloader for our internal API and other core classes
 |
 */
 
-require_once __DIR__ . '/core/statamic.php';
-require_once __DIR__ . '/core/contentservice.php';
-require_once __DIR__ . '/core/contentset.php';
-require_once __DIR__ . '/core/taxonomyset.php';
-require_once __DIR__ . '/core/log.php';
-require_once __DIR__ . '/core/logwriter.php';
-require_once __DIR__ . '/core/helper.php';
-require_once __DIR__ . '/core/addon.php';
-require_once __DIR__ . '/core/plugin.php';
-require_once __DIR__ . '/core/tasks.php';
-require_once __DIR__ . '/core/hooks.php';
-require_once __DIR__ . '/core/view.php';
-require_once __DIR__ . '/core/validate.php';
-require_once __DIR__ . '/core/auth.php';
-require_once __DIR__ . '/core/fieldset.php';
-require_once __DIR__ . '/core/fieldtype.php';
-require_once __DIR__ . '/core/user.php';
+// helper functions
 require_once __DIR__ . '/core/functions.php';
+
+// register the Statamic autoloader
+spl_autoload_register("autoload_statamic");
+
+
+// attempt HTML caching
+// although this doesn't really have anything to do with autoloading, putting this
+// here allows us to not force people to update their index.php files
+if (Addon::getAPI('html_caching')->isEnabled() && Addon::getAPI('html_caching')->isPageCached()) {
+    die(Addon::getAPI('html_caching')->getCachedPage());
+}
+
+// mark milestone for debug panel
+Debug::markMilestone('autoloaders ready');

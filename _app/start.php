@@ -10,10 +10,15 @@
 | depend on these settings.
 |
 */
+
+
 $config = Statamic::loadAllConfigs();
+
+$config['_cookies.secret_key'] = Cookie::getSecretKey();
 
 $config['log_enabled'] = TRUE;
 $config['log.level'] = Log::convert_log_level($config['_log_level']);
+$config['whoops.editor'] = 'sublime';
 $config['log.writer'] = new Statamic_Logwriter(
     array(
         'path' => $config['_log_file_path'],
@@ -45,9 +50,39 @@ date_default_timezone_set(Helper::pick($config['_timezone'], @date_default_timez
 |
 */
 
+// mark milestone for debug panel
+Debug::markMilestone('bootstrapped');
+
 $app = new \Slim\Slim(array_merge($config, array('view' => new Statamic_View)));
 
+// mark milestone for debug panel
+Debug::markMilestone('app created');
+
+// Initialize Whoops middleware
+$app->add(new \Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware);
+
+// Pass Statamic config to Slim
 $app->config = $config;
+
+// mark milestone for debug panel
+Debug::markMilestone('app configured');
+
+
+/*
+|--------------------------------------------------------------------------
+| Localization Initialization
+|--------------------------------------------------------------------------
+|
+| Starts up translations for any in-code language messages that need it
+|
+*/
+
+Localization::initialize();
+
+// mark milestone for debug panel
+Debug::markMilestone('localization ready');
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -68,9 +103,9 @@ Statamic::processVanityURLs($config);
 |
 */
 
-$app->add(new \Slim\Middleware\SessionCookie(
-        array('expires' => $config['_cookies.lifetime']))
-);
+session_cache_limiter(false);
+session_start();
+
 
 /*
 |--------------------------------------------------------------------------
@@ -96,16 +131,22 @@ Statamic_View::set_layout("layouts/default");
 
 Statamic::setDefaultTags();
 
+// mark milestone for debug panel
+Debug::markMilestone('app defaults set');
 
 /*
 |--------------------------------------------------------------------------
 | Caching
 |--------------------------------------------------------------------------
-|
+|gt
 | Look for updated content to cache
 |
 */
-Cache::update();
+_Cache::update();
+//_Cache::dump();
+
+// mark milestone for debug panel
+Debug::markMilestone('caches updated');
 
 /*
 |--------------------------------------------------------------------------

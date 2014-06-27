@@ -1,26 +1,34 @@
 <?php
+
 /**
  * File
  * API for interacting with files
  *
- * @author      Jack McDade
- * @author      Fred LeBlanc
- * @author      Mubashar Iqbal
+ * @author      Statamic
  * @package     API
- * @copyright   2013 Statamic
+ * @copyright   2014 Statamic
  */
+
+use Symfony\Component\Filesystem\Filesystem as Filesystem;
+
 class File
 {
 
+    public function __constructor() {
+
+    }
+
     /**
-     * Determine if a file exists.
+     * Determine if files exist.
      *
-     * @param  string  $path
-     * @return bool
+     * @param  mixed  $path
+     * @return Boolean true if the file exists, false otherwise
      */
-    public static function exists($path)
+    public static function exists($files)
     {
-        return file_exists($path);
+        $fs = new Filesystem();
+        
+        return $fs->exists($files);
     }
 
 
@@ -41,22 +49,34 @@ class File
      */
     public static function get($path, $default = null)
     {
-        return (File::exists($path)) ? file_get_contents($path) : Helper::resolveValue($default);
+        if (File::exists($path)) {
+            Debug::increment('files', 'opened');
+            return file_get_contents($path);
+        } else {
+            return Helper::resolveValue($default);
+        }
     }
 
 
     /**
-     * Write to a file.
+     * Atomically dump content into a file.
      *
-     * @param  string  $path  Path of file to store
-     * @param  string  $data  Content to store
-     * @return int
+     * @param  string  $filename  Path of file to store
+     * @param  string  $content   Content to store
+     * @return void
      */
-    public static function put($path, $data)
+    public static function put($filename, $content, $mode = null)
     {
-        umask(0);
-        Folder::make(dirname($path));
-        return file_put_contents($path, $data, LOCK_EX);
+        Debug::increment('files', 'written');
+        $fs = new Filesystem();
+        
+        if (File::exists($filename)) {
+            $mode = intval(substr(sprintf('%o', fileperms($filename)), -4), 8);
+        } elseif (is_null($mode)) {
+            $mode = 0755;
+        }
+        
+        $fs->dumpFile($filename, $content, $mode);
     }
 
 
@@ -69,6 +89,8 @@ class File
      */
     public static function append($path, $data)
     {
+        Debug::increment('files', 'written');
+        Debug::increment('files', 'appended');
         Folder::make(dirname($path));
         return file_put_contents($path, $data, LOCK_EX | FILE_APPEND);
     }
@@ -83,62 +105,133 @@ class File
      */
     public static function prepend($path, $data)
     {
+        Debug::increment('files', 'written');
+        Debug::increment('files', 'prepended');
         Folder::make(dirname($path));
         return file_put_contents($path, $data . File::get($path, ""), LOCK_EX);
     }
 
 
     /**
-     * Delete a file.
+     * Removes files or directories
      *
-     * @param  string  $path  Path of file to delete
-     * @return bool
+     * @param string|array|  $files  A filename or an array of files
+     * @return fixed
      */
-    public static function delete($path)
+    public static function delete($files)
     {
-        if (static::exists($path)) {
-            return @unlink($path);
-        }
+        Debug::increment('files', 'deleted');
+        $fs = new Filesystem();
+        
+        $fs->remove($files);
     }
 
 
     /**
      * Move a file to a new location.
      *
-     * @param  string  $path  Path of file to move
-     * @param  string  $destination  Destination path for the file
+     * @param string  $origin    The origin filename or directory
+     * @param string  $target    The new filename or directory
+     * @param Boolean $overwrite Whether to overwrite the target if it already exists
      * @return resource
      */
-    public static function move($path, $destination)
+    public static function move($origin, $target, $overwrite = false)
     {
-        return rename($path, $destination);
+        Debug::increment('files', 'moved');
+        $fs = new Filesystem();
+
+        $fs->rename($origin, $target, $overwrite);
+    }
+
+    /**
+     * Rename a file or directory
+     *
+     * @param string  $origin    The origin filename or directory
+     * @param string  $target    The new filename or directory
+     * @param Boolean $overwrite Whether to overwrite the target if it already exists
+     * @return resource
+     */
+    public static function rename($origin, $target, $overwrite = false)
+    {
+        Debug::increment('files', 'renamed');
+        $fs = new Filesystem();
+
+        if ( ! self::inBasePath($origin)) {
+            $origin = Path::assemble(BASE_PATH, $origin);
+        } 
+
+        if ( ! self::inBasePath($target)) {
+            $target = Path::assemble(BASE_PATH, $target);
+        } 
+
+        $fs->rename($origin, $target, $overwrite);
+    }
+
+
+    /**
+     * Check if a path is inside Statamic's BASE_PATH
+     *
+     * @param string  $path  The filename or directory
+     * @return boolean
+     */
+    public static function inBasePath($path) {
+        return stripos($path, BASE_PATH);
     }
 
     /**
      * Upload a file.
      *
      * @param string  $file  Name of file
-     * @param string  $destination  Destination of file
+     * @param string  $target  target of file
      * @param string  $filename  Name of new file
      * @return bool
      **/
-    public static function upload($file, $destination, $filename = null)
+    public static function upload($file, $destination, $add_root_variable = false)
     {
         Folder::make($destination);
-        return move_uploaded_file($file, $destination . '/' . $filename);
+
+        $info      = pathinfo($file['name']);
+        $extension = $info['extension'];
+
+        // build filename
+        $new_filename = Path::assemble(BASE_PATH, $destination, $info['filename'] . '.' . $extension);
+
+        // check for dupes
+        if (File::exists($new_filename)) {
+            $new_filename = Path::assemble(BASE_PATH, $destination, $info['filename'] . '-' . date('YmdHis') . '.' . $extension);
+        }
+
+        // Check if destination is writable
+        if ( ! Folder::isWritable($destination)) {
+            Log::error('Upload failed. Directory "' . $destination . '" is not writable.', 'core');
+
+            return null;
+        }
+
+        // write file
+        move_uploaded_file($file['tmp_name'], $new_filename);
+
+        return Path::toAsset($new_filename, $add_root_variable);
     }
 
 
     /**
-     * Copy a file to a new location.
+     * Copies a file.
      *
-     * @param  string  $path  Path of file to copy
-     * @param  string  $destination  Destination path for the file copy
-     * @return resource
+     * This method only copies the file if the origin file is newer than the target file.
+     *
+     * By default, if the target already exists, it is not overridden.
+     *
+     * @param string  $originFile The original filename
+     * @param string  $targetFile The target filename
+     * @param boolean $override   Whether to override an existing file or not
      */
-    public static function copy($path, $destination)
+    public static function copy($originFile, $targetFile, $override = false)
     {
-        return copy($path, $destination);
+        Debug::increment('files', 'copied');
+        $fs = new Filesystem();
+
+        $fs->copy($originFile, $targetFile, $override);
     }
 
 
@@ -151,6 +244,7 @@ class File
      */
     public static function buildContent(Array $data, $content)
     {
+        Debug::increment('content', 'files_built');
         $file_content  = "---\n";
         $file_content .= preg_replace('/\A^---\s/ism', "", YAML::dump($data));
         $file_content .= "---\n";
@@ -195,6 +289,32 @@ class File
         return filesize($path);
     }
 
+    
+    /**
+     * Get the human file size of a given file.
+     *
+     * @param int  $bytes  Number of bytes
+     * @return int
+     */
+    public static function getHumanSize($bytes)
+    {
+        if ($bytes >= 1073741824) {
+            $bytes = number_format($bytes / 1073741824, 2) . ' GB';
+        } elseif ($bytes >= 1048576) {
+            $bytes = number_format($bytes / 1048576, 2) . ' MB';
+        } elseif ($bytes >= 1024) {
+            $bytes = number_format($bytes / 1024, 2) . ' KB';
+        } elseif ($bytes > 1) {
+            $bytes = $bytes . ' bytes';
+        } elseif ($bytes == 1) {
+            $bytes = $bytes . ' byte';
+        } else {
+            $bytes = '0 bytes';
+        }
+
+        return $bytes;
+    }
+
 
     /**
      * Get the file's last modification time.
@@ -202,8 +322,7 @@ class File
      * @param  string  $path  Path of file
      * @return int
      */
-    public static function getLastModified($path)
-    {
+    public static function getLastModified($path) {
         return filemtime($path);
     }
 
@@ -217,6 +336,18 @@ class File
     public static function isWritable($file)
     {
         return is_writable($file);
+    }
+
+
+    /**
+     * Checks to see if a given $file is readable
+     *
+     * @param string  $file  File to check
+     * @return bool
+     */
+    public static function isReadable($file)
+    {
+        return is_readable($file);
     }
 
 
@@ -358,4 +489,42 @@ class File
         return self::is(array('jpg', 'jpeg', 'png', 'gif'), $file);
     }
 
+
+    /**
+     * Returns whether the file path is an absolute path.
+     *
+     * @param string $file A file path
+     *
+     * @return Boolean
+     */
+    public static function isAbsolutePath($file)
+    {
+        $fs = new Filesystem();
+
+        return $fs->isAbsolutePath($file);
+    }
+    
+    
+    /**
+     * Recursively glob through folders looking for files of a given $type
+     * 
+     * @param string  $path  Path to start at
+     * @param string  $type  Type of files to grab
+     * @return array
+     */
+    public static function globRecursively($path, $type)
+    {
+        $output = array();
+        $files  = glob($path, GLOB_NOSORT);
+
+        foreach ($files as $file) {
+            if (is_dir($file)) {
+                $output = array_merge($output, self::globRecursively($file . '/*', $type));
+            } elseif (substr($file, -(strlen($type) + 1)) === '.' . $type) {
+                $output[] = $file;
+            }
+        }
+
+        return $output;
+    }
 }

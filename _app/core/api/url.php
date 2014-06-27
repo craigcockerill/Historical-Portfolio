@@ -49,7 +49,19 @@ class URL
             $url = Config::getSiteRoot() . '/' . $url;
         }
 
-        return self::format($url);
+        return self::sanitize(self::format($url));
+    }
+
+
+    /**
+     * Creates a full URL from a local one, assumes you've accounted for the site's root in a subfolder
+     * 
+     * @param string  $url  URL to make full
+     * @return string
+     */
+    public static function makeFull($url)
+    {
+        return self::tidy(Config::getSiteURL() . '/' . $url);
     }
 
 
@@ -121,5 +133,55 @@ class URL
     public static function tidy($url)
     {
         return Path::tidy($url);
+    }
+    
+    
+    /**
+     * Sanitizes a variable
+     * 
+     * @param string  $variable  Variable to sanitize
+     * @return string
+     */
+    public static function sanitize($variable)
+    {
+        if (is_array($variable)) {
+            array_walk_recursive($variable, function(&$item, $key) {
+                $item = htmlspecialchars(urldecode($item));
+            });
+        } else {
+            $variable = htmlspecialchars(urldecode($variable));
+        }
+        
+        return $variable;
+    }
+    
+    
+    /**
+     * Appends a get query appropriately
+     * 
+     * @param string  $url  URL base
+     * @param string  $key  Key of get variable
+     * @param string  $value  Value of get variable
+     * @return string
+     */
+    public static function appendGetVariable($url, $key, $value)
+    {
+        // set delimiter
+        $delimiter = (strpos($url, '?') !== false) ? '&' : '?';
+        
+        // return appended URL
+        return $url . $delimiter . $key . '=' . urlencode($value);
+    }
+    
+    
+    /**
+     * Prepends the site's configured site root onto given $url
+     * 
+     * @param string  $url  URL to prepend
+     * @return string
+     */
+    public static function prependSiteRoot($url)
+    {
+        return Path::tidy(Config::getSiteRoot() . $url);
     }
 }
