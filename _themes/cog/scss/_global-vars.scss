@@ -1,8 +1,8 @@
-/* $declarations
+/* $DECLARATIONS
 -------------------------------------------------- */
 
 $bg: #fff;
-$primary: #13a857;
+$primary: #13a858;
 $primary-light: rgba(19, 168, 87, .125);
 $grey: #f9f9f9;
 $lightgrey: #e2e2e2;
@@ -10,167 +10,65 @@ $black: #313431;
 $bg-stripe: url('../img/bg-stripe.png') repeat;
 
 
-/* $utilities
+/* $UTILITIES
 ------------------------- */
 
 .clearfix {
-  @include clearfix;
+	@include clearfix;
 }
 
+::selection {
+	background: #e2f5ea; /* Safari */
+	}
+::-moz-selection {
+	background: #e2f5ea; /* Firefox */
+}
 
-/* $breakpoints
+/* $BREAKPOINTS
 ------------------------- */
 
 $tablet: new-breakpoint(max-width 1090px 12);
 $tablet-portrait: new-breakpoint(max-width 768px 6);
 $mobile: new-breakpoint(max-width 500px 2);
 
-/* $typography
+/* $TYPOGRAPHY
 ------------------------- */
 
-$copy: "jaf-bernino-sans", sans-serif;
-$alternate: "jaf-herb-condensed";
+$copy: 'Cantarell', sans-serif;
+$alternate: $copy;
 
-$light: 300;
+$light: 400;
 $regular: 400;
 $semibold: 600;
 $bold: 700;
 
 
-/* $global
+/* $GLOBAL
 -------------------------------------------------- */
 
 html, body {
-  height: 100%;
+	height: 100%;
 }
 
 body {
-  background: $bg;
-  font-size: 100%;
-  line-height: 1.5em;
-  font-style: normal;
-  font-weight: $light;
-  font-family: $copy;
-  color: $primary;
-  @include transition(all .2s);
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility:    hidden;
-  -ms-backface-visibility:     hidden;
-}
+	background: $bg;
+	font-size: 100%;
+	line-height: 1.5em;
+	font-style: normal;
+	font-weight: $regular;
+	font-family: $copy;
+	color: $primary;
+	@include transition(all .2s);
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility:    hidden;
+	-ms-backface-visibility:     hidden;
 
-/* $structure
--------------------------------------------------- */
-
-.wrap {
-  max-width: 1024px;
-  width: 1000px;
-
-  @include transition(all .2s);
-
-  @include outer-container;
-
-  @include media($tablet) {
-    max-width: 768px;
-  }
-
-  @include media($tablet-portrait) {
-    max-width: 500px;
-  }
-
-  @include media($mobile) {
-    max-width: 300px;
-  }
-}
-
-.col-1-3 {
-  @include span-columns(4);
-
-  @include media($tablet-portrait) {
-    @include span-columns(3);
-  }
-
-  @include media($mobile) {
-    @include span-columns(2);
-  }
-}
-
-.col-2-3 {
-  @include span-columns(8);
-
-  @include media($tablet-portrait) {
-    @include span-columns(6);
-  }
-
-  @include media($mobile) {
-    @include span-columns(2);
-  }
-
-  .col-1-3 {
-  @include span-columns(4 of 8);
-
-    @include media($tablet-portrait) {
-      @include span-columns(3 of 6);
-    }
-
-    @include media($mobile) {
-      @include span-columns(2 of 2);
-    }
-  }
-
-}
-
-/* $typography
--------------------------------------------------- */
-
-h1, h2, h3, h4, h5, h6 {
-  color: $primary;
-}
-
-h1 {
-  margin-top: 0;
-
-  font-size: 3em;
-  line-height: 1.5em;
-  font-family: $alternate;
-  font-weight: $regular;
-  letter-spacing: 1px;
-  -webkit-font-smoothing: antialiased;
-}
-
-h2 {
-  font-weight: $regular;
-}
-
-h3 {
-  margin: 0 0 10px 0;
-  font-size: 1.5em;
-  line-height: 1.5em;
-  font-weight: $regular;
-}
-
-.type {
-  font-weight: $light;
-}
-
-a {
-  text-decoration: none;
-  color: $primary;
-  opacity: .75;
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility:    hidden;
-  -ms-backface-visibility:     hidden;
-
-  @include transition (all .2s);
-
-  &:hover {
-    opacity: 1;
-    background: $primary-light;
-  }
-}
-
-#temp {
-  margin-top: 60px;
-  letter-spacing: 2px;
+	animation-name:                  type-color;
+	-webkit-animation-name:          type-color;
+	animation-duration:                     20s;
+	-webkit-animation-duration:             20s;
+	animation-iteration-count:         infinite;
+	-webkit-animation-iteration-count: infinite;
 }
 
 /* $FOUT
@@ -178,16 +76,132 @@ a {
 
 
 .wf-loading {
-
-  a, h1, h2, h3, h4, h5, h6, span, p, li, pre, code, input, textarea {
-    font-family: $copy;
-    visibility: hidden;
-  }
+	a, h1, h2, h3, h4, h5, h6, span, p, li, pre, code, input, textarea {
+		font-family: $copy;
+		visibility: hidden;
+	}
 }
 
 .wf-active {
-
-  a, h1, h2, h3, h4, h5, h6, span, p, li, pre, code, input, textarea {
-    visibility: visible;
-  }
+	a, h1, h2, h3, h4, h5, h6, span, p, li, pre, code, input, textarea {
+		visibility: visible;
+	}
 }
+
+
+/* $STRUCTURE
+-------------------------------------------------- */
+
+.wrap {
+	max-width: 1024px;
+	width: 1000px;
+
+	@include transition(all .2s);
+
+	@include outer-container;
+
+	@include media($tablet) {
+		max-width: 768px;
+	}
+
+	@include media($tablet-portrait) {
+		max-width: 500px;
+	}
+
+	@include media($mobile) {
+		max-width: 300px;
+	}
+}
+
+.col-1-3 {
+	@include span-columns(4);
+
+
+	@include media($tablet-portrait) {
+		@include span-columns(3);
+	}
+
+	@include media($mobile) {
+		@include span-columns(2);
+	}
+}
+
+.col-2-3 {
+	@include span-columns(8);
+
+	@include media($tablet-portrait) {
+		@include span-columns(6);
+	}
+
+	@include media($mobile) {
+		@include span-columns(2);
+	}
+
+	.col-1-3 {
+	@include span-columns(4 of 8);
+
+		@include media($tablet-portrait) {
+			@include span-columns(3 of 6);
+		}
+
+		@include media($mobile) {
+			@include span-columns(2 of 2);
+		}
+	}
+
+}
+
+/* $TYPOGRAPHY
+-------------------------------------------------- */
+
+h1, h2, h3, h4, h5, h6 {
+	color: $primary;
+}
+
+h1 {
+	margin-top: 0;
+
+	font-size: 3em;
+	line-height: 1.5em;
+	font-family: $alternate;
+	font-weight: $regular;
+	letter-spacing: 1px;
+	-webkit-font-smoothing: antialiased;
+}
+
+h2 {
+	font-weight: $regular;
+}
+
+h3 {
+	margin: 0 0 10px 0;
+	font-size: 1.5em;
+	line-height: 1.5em;
+	font-weight: $regular;
+}
+
+.type {
+	font-weight: $regular;
+}
+
+a {
+	text-decoration: none;
+	color: $primary;
+	opacity: .75;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility:    hidden;
+	-ms-backface-visibility:     hidden;
+
+	@include transition (all .2s);
+
+	&:hover {
+		opacity: 1;
+		background: $primary-light;
+	}
+}
+
+#temp {
+	margin-top: 60px;
+	letter-spacing: 2px;
+}
+

@@ -7,7 +7,7 @@
 ###########################################################################################
 
 # Form submissions can be saved to YAML files
-submission_save_to_file: true
+submission_save_to_file: false
 
 # Location (from root) to save form submissions
 submission_save_path: _forms/
@@ -26,7 +26,3 @@ email_handler:
 email_handler_key:
 
 master_killswitch: false
-
-datestamp_format: "m/d/Y"
-
-# akismet_api_key: 

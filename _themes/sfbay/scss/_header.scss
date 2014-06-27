@@ -1,0 +1,26 @@
+/* $header
+-------------------------------------------------- */
+
+header {
+  padding: 62px 0 48px 0;
+}
+
+#name-link {
+  display: inline-block;
+  color: $spot;
+  font-weight: $regular;
+  text-decoration: none;
+  opacity: 1;
+  font-size: 48px;
+  line-height: 60px;
+  letter-spacing: .05em;
+  -webkit-font-smoothing: antialiased;
+  border: 5px solid $spot;
+  padding: 3px 6px;
+
+  &:hover {
+    color: lighten($spot, 25%);
+    background: none;
+    border-color: lighten($spot, 25%);
+  }
+}

@@ -1,0 +1,87 @@
+/* $last.fm
+------------------------- */
+
+#lastfm-container {
+
+  .heading-button {
+   display: inline-block;
+   margin: 9px 0 28px 0;
+   padding: 0;
+  }
+}
+
+$track-pad: 10px;
+$track-height: 20px;
+$track-art: 60px;
+
+#lastfm-feed {
+  margin: 0;
+  padding-left: 0;
+
+  li {
+    list-style-type: none;
+    width: 100%;
+    display: block;
+    margin: 0 0 30px;
+    position: relative;
+
+
+    .artwork {
+      width: $track-art;
+      height: $track-art;
+      margin-right: 10px;
+      overflow: hidden;
+      background: lighten($primary, 25%);
+      float: left;
+      display: block;
+      color: transparent;
+
+      img {
+        width: $track-art;
+        height: $track-art;
+
+        @include backface-visibility(hidden);
+        @include transition (all .2s);
+
+        &:hover {
+          filter:         blur(3px);
+          -webkit-filter: blur(3px);
+          -moz-filter:    blur(3px);
+          -o-filter:      blur(3px);
+          -ms-filter:     blur(3px);
+        }
+      }
+
+    }
+
+
+    .track-artist {
+      width: 60%;
+      float: left;
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-size: 18px;
+      line-height: 24px;
+    }
+
+    .track-title {
+      width: 60%;
+      float: left;
+      display: block;
+
+      a {
+        width: 100%;
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 14px;
+        // line-height: 18px;
+      }
+    }
+
+  }
+}
+

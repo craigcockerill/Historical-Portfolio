@@ -1,0 +1,82 @@
+@font-face {
+  font-family: 'VT323';
+  font-style: normal;
+  font-weight: 400;
+  src: local('VT323'), local('VT323-Regular'), url('../webfonts/vt323.woff') format('woff');
+}
+
+@include keyframes(flicker) {
+  0% { opacity: 0; }
+
+  // flicker
+  5%  { opacity: .5; }
+  6% { opacity: 1; }
+  11% { opacity: .4; }
+  11.25% { opacity: .6; }
+  11.5% { opacity: .4; }
+  18% { opacity: 1; }
+  18.5% { opacity: .9; }
+  22% { opacity: 1; }
+
+   // flicker
+  38.5% { opacity: 1; }
+  39% { opacity: .65; }
+  40% { opacity: .3; }
+  42% { opacity: 1; }
+
+  // flicker
+  60% { opacity: 1; }
+  60.5% { opacity: .5; }
+  62% { opacity: .3; }
+  63% { opacity: .7; }
+  63.25% { opacity: .3; }
+  65% { opacity: 1; }
+
+  // flicker
+  73% { opacity: 1; }
+  75% { opacity: .8; }
+  79% { opacity: 1; }
+
+  100% { opacity: 1; }
+}
+
+body.meow {
+  background: #002000;
+  color: #3bfc34;
+  font-family: 'VT323', sans-serif;
+  @include backface-visibility(hidden);
+  position: relative;
+
+
+  #name-link {
+    width: 87px;
+    height: 76px;
+    text-align: center;
+    font-family: 'VT323', sans-serif;
+    color: #3bfc34;
+    border-color: #3bfc34;
+  }
+
+  p, #name-link, footer, h1 {
+    color: #3bfc34;
+    font-family: 'VT323', sans-serif;
+    @include animation( flicker 10s linear infinite );
+  }
+
+  footer .wrap .col-2-3 {
+    border-color: #3bfc34;
+
+    h6 {
+      color: #3bfc34;
+    }
+  }
+
+  a:hover {
+    background-color: darken(#3bfc34, 25%);
+  }
+
+  a, #nav-footer li a {
+    color: lighten(#3bfc34, 25%);
+  }
+
+}

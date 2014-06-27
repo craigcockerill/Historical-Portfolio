@@ -1,0 +1,17 @@
+allowed:
+  - name
+  - email
+  - message
+
+required:
+  - email
+  - message
+
+validate:
+  email: email
+
+email:
+  from: "{{ email }}"
+  to: "craig@cockerill.me"
+  subject: "You have a new message from {{ name }}"
+  automagic: true
