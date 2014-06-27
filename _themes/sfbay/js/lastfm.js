@@ -4,7 +4,7 @@
 
 		// Set pluign defaults
 		var defaults = {
-			limit: 5,
+			limit: 6,
 			header: true,
 			title: '',
 			imagesize: 'medium',
@@ -101,14 +101,14 @@
 
 		// Add header if required
 
-		html += '<a href="http://www.last.fm/user/ccockerill" class="heading-button">last.fm</a>';
+		html += '<a href="http://www.last.fm/user/ccockerill" class="heading-button" target="_blank">last.fm</a>';
 
 		// Add feed container
 
 
 		if (feeds) {
 
-			html += '<ul id="lastfm-feed">';
+			html += '<ul id="lastfm-feed" class="cf">';
 
 			var count = feeds.length;
 			if (count > options.limit) count = options.limit;
@@ -119,7 +119,7 @@
 				// Get individual feed
 				var item = feeds[i];
 
-				html += '<li class="track">';
+				html += '<li class="track cf">';
 
 			 	// Get feed data
 				var name = item.name;
@@ -133,7 +133,7 @@
 
 				if (display == 'lovedtracks' || display == 'topalbums' || display == 'toptracks') {
 
-					artist = '<a href="'+ _getValidURL(item.artist.url) +'" title="More about '+ item.artist.name +' on Last.FM">'+ item.artist.name +'</a>';
+					artist = '<a href="'+ _getValidURL(item.artist.url) +'" title="More about '+ item.artist.name +' on Last.FM" target="_blank">'+ item.artist.name +'</a>';
 				} else if (display == 'recenttracks') {
 
 					artist = item.artist['#text'];
@@ -167,7 +167,7 @@
 
 					// Apply default image if requried
 					if (imgurl == '') imgurl = options.noimage;
-					if (imgurl != '') html += '<a class="artwork" href="'+ url +'" title="Listen to '+ item.name +' on Last.FM"><img src="'+ imgurl +'" alt="'+ item.name +'" /></a>'
+					if (imgurl != '') html += '<a class="artwork" href="'+ url +'" title="Listen to '+ item.name +' on Last.FM" target="_blank"><img src="'+ imgurl +'" alt="'+ item.name +'" /></a>'
 				}
 
 				// Add artist
@@ -175,7 +175,7 @@
 
 
 				// Add name
-				if (options.name) html += '<div class="track-title"><a href="'+ url +'" title="Listen to '+ item.name +' on Last.FM">'+ trackname +'</a></div>'
+				if (options.name) html += '<div class="track-title"><a href="'+ url +'" title="Listen to '+ item.name +' on Last.FM" target="_blank">'+ trackname +'</a></div>'
 
 				// Add play count
 				if (options.playcount && playcount != null) html += '<div class="track-playcount">'+ playcount +' plays</div>'

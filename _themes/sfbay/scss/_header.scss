@@ -2,7 +2,7 @@
 -------------------------------------------------- */
 
 header {
-  padding: 62px 0 45px 0;
+  padding: 62px 0 48px 0;
 }
 
 #name-link {
@@ -17,14 +17,6 @@ header {
   -webkit-font-smoothing: antialiased;
   border: 5px solid $spot;
   padding: 3px 6px;
-
-  // animation-name:                        logo;
-  // -webkit-animation-name:                logo;
-  // animation-duration:                      5s;
-  // -webkit-animation-duration:              5s;
-  // animation-iteration-count:         infinite;
-  // -webkit-animation-iteration-count: infinite;
-
 
   &:hover {
     color: lighten($spot, 25%);

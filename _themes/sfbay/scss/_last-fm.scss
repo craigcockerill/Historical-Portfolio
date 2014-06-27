@@ -2,139 +2,83 @@
 ------------------------- */
 
 #lastfm-container {
-  height: 346px;
-  border: 1px solid $primary;
 
   .heading-button {
-    border-bottom: 1px solid $primary;
-    margin-bottom: 10px;
+   display: inline-block;
+   margin: 9px 0 28px 0;
+   padding: 0;
   }
 }
 
 $track-pad: 10px;
-$track-art: 40px;
 $track-height: 20px;
-
+$track-art: 60px;
 
 #lastfm-feed {
   margin: 0;
   padding-left: 0;
-  background: #fff;
 
   li {
     list-style-type: none;
-    height: $track-art + $track-pad;
     width: 100%;
-    margin-top: 0;
-    padding: 0 $track-pad $track-pad $track-pad;
-    border-bottom: 1px solid $primary;
-    margin-bottom: $track-pad;
+    display: block;
+    margin: 0 0 30px;
     position: relative;
 
-      &:after {
-        content: '';
-        display: block;
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 40px;
-        height: 40px;
-
-        background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* IE10+ */
-        background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C */
-      }
 
     .artwork {
       width: $track-art;
       height: $track-art;
+      margin-right: 10px;
       overflow: hidden;
-      display: inline-block;
-      background: $bg-stripe;
+      background: lighten($primary, 25%);
+      float: left;
+      display: block;
       color: transparent;
-      opacity: 1;
-
-      &:hover {
-        border-bottom: none;
-      }
 
       img {
         width: $track-art;
         height: $track-art;
-        opacity: 1;
-        -webkit-backface-visibility: hidden;
-        -moz-backface-visibility:    hidden;
-        -ms-backface-visibility:     hidden;
-        @include transition (opacity .3s);
+
+        @include backface-visibility(hidden);
+        @include transition (all .2s);
 
         &:hover {
-          opacity: .75;
+          filter:         blur(3px);
+          -webkit-filter: blur(3px);
+          -moz-filter:    blur(3px);
+          -o-filter:      blur(3px);
+          -ms-filter:     blur(3px);
         }
       }
 
     }
 
-    $remaining-width: 265px;
 
     .track-artist {
-      width: $remaining-width;
-      height: $track-height;
+      width: 60%;
+      float: left;
       display: inline-block;
-      position: absolute;
       overflow: hidden;
+      white-space: nowrap;
       text-overflow: ellipsis;
-      padding: 0 0 0 10px;
-      font-weight: $regular;
-
-      @include media($tablet) {
-        width: 191px;
-      }
-
-      @include media($tablet-portrait) {
-        width: 448px;
-      }
-
-      @include media($mobile) {
-        width: 248px;
-      }
+      font-size: 18px;
+      line-height: 24px;
     }
 
     .track-title {
-      width: $remaining-width;
-      height: $track-height + 5;
-      display: inline-block;
-      position: absolute;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-top: 20px;
-      padding: 0 0 0 10px;
-
-      @include media($tablet) {
-        width: 191px;
-      }
-
-      @include media($tablet-portrait) {
-        width: 448px;
-      }
-
-      @include media($mobile) {
-        width: 248px;
-      }
+      width: 60%;
+      float: left;
+      display: block;
 
       a {
-        font-size: .8em;
         width: 100%;
-        background: none;
-
-        -webkit-backface-visibility: hidden;
-        -moz-backface-visibility:    hidden;
-        -ms-backface-visibility:     hidden;
-
-        @include transition (opacity .2s);
-
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 14px;
+        // line-height: 18px;
       }
     }
 

@@ -46,24 +46,11 @@ $bold: 700;
 
 /* $GLOBAL
 -------------------------------------------------- */
-html {
-  height: 100%;
-}
-
-
 body {
-  // background: $bg;
-  font-size: 24px;
-  line-height: 36px;
   font-style: normal;
   font-weight: $light;
   font-family: $copy;
   color: $primary;
-
-  @include media($mobile) {
-    font-size: 18px;
-    line-height: 24px;
-  }
 }
 
 /* $FOUT
@@ -149,38 +136,47 @@ body {
 /* $TYPOGRAPHY
 -------------------------------------------------- */
 
+body {
+  font-size: 24px;
+  line-height: 36px;
+  -webkit-font-smoothing: antialiased;
+
+  @include media($mobile) {
+    font-size: 18px;
+    line-height: 24px;
+  }
+}
+
 h1, h2, h3, h4, h5, h6 {
   color: $primary;
 }
 
 h1 {
-  margin-top: 0;
-
-  font-size: 3em;
-  line-height: 1.5em;
+  margin: 0 0 21px 0;
+  font-size: 36px;
+  line-height: 48px;
   font-family: $alternate;
   font-weight: $regular;
-  letter-spacing: 1px;
   -webkit-font-smoothing: antialiased;
+
+  @include media($mobile) {
+    font-size: 24px;
+    line-height: 36px;
+  }
 }
 
 h2 {
+  font-size: 30px;
+  line-height: 48px;
   font-weight: $regular;
 }
 
 h3 {
-  margin: 0 0 10px 0;
-  font-size: 1.5em;
-  line-height: 1.5em;
   font-weight: $regular;
 }
 
 p {
   margin: 0 0 18px 0;
-}
-
-.type {
-  font-weight: $regular;
 }
 
 a {
@@ -198,8 +194,21 @@ a {
   }
 }
 
-#temp {
-  margin-top: 60px;
-  letter-spacing: 2px;
+
+/* $Typed
+-------------------------------------------------- */
+
+@include keyframes(blink) {
+  0% { opacity:1; }
+  50% { opacity:0; }
+  100% { opacity:1; }
 }
+
+#typed-cursor{
+  opacity: 1;
+  font-weight: 100;
+  // add prefixes
+  @include animation( blink .7s  infinite );
+}
+
 

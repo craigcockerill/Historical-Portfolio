@@ -52,8 +52,9 @@ body.meow {
     border-color: #3bfc34;
   }
 
-  p, #name-link, footer {
-     @include animation( flicker 10s linear infinite );
+  p, #name-link, footer, h1 {
+    color: #3bfc34;
+    @include animation( flicker 10s linear infinite );
   }
 
   footer .wrap .col-2-3 {

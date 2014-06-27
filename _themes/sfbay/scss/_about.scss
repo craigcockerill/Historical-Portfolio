@@ -14,22 +14,3 @@
 		}
 	}
 }
-
-
-/* $heading
-------------------------- */
-
-.heading-button {
-	display: block;
-	font-size: 1.25em;
-	padding: 10px;
-	font-weight: $light;
-
-	@include transition(all .2s);
-
-	&:hover {
-		border-bottom: none;
-		background: $primary-light;
-	}
-
-}
