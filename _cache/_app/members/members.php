@@ -1,0 +1,1 @@
+a:1:{s:5:"craig";a:7:{s:10:"first_name";s:5:"Craig";s:9:"last_name";s:9:"Cockerill";s:5:"roles";a:1:{i:0;s:5:"admin";}s:8:"password";s:0:"";s:18:"encrypted_password";s:40:"62f43f15f0fb8476266f0d513fe03f13ac05bb31";s:4:"salt";s:32:"cp0YMGzk5MRd8Cc6NWrS7thxwwd6gCFd";s:5:"_path";s:62:"/Users/craigcockerill/Sites/Portfolio/_config/users/craig.yaml";}}
