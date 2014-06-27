@@ -1011,7 +1011,7 @@ input[type="submit"] {
 /* $footer
 -------------------------------------------------- */
 footer {
-  margin: 25px 0;
+  margin: 21px 0;
   width: 100%;
   height: 60px;
   font-size: 14px;
@@ -1365,6 +1365,7 @@ body.meow {
     border-color: #3bfc34; }
   body.meow p, body.meow #name-link, body.meow footer, body.meow h1 {
     color: #3bfc34;
+    font-family: 'VT323', sans-serif;
     -webkit-animation: flicker 10s linear infinite;
     -moz-animation: flicker 10s linear infinite;
     animation: flicker 10s linear infinite; }
