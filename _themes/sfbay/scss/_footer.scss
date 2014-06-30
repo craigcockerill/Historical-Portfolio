@@ -13,6 +13,9 @@ footer {
   color: $primary;
   font-weight: $light;
 
+    @include media($mobile) {
+      text-align: center;
+    }
 
   a {
     float: right;
