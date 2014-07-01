@@ -57,7 +57,7 @@ body.meow {
     border-color: #3bfc34;
   }
 
-  p, #name-link, footer, h1 {
+  p, #name-link, footer, h1, ul li {
     color: #3bfc34;
     font-family: 'VT323', sans-serif;
     @include animation( flicker 10s linear infinite );
