@@ -4,19 +4,11 @@
         <h6>&copy; 2014 Craig Cockerill | Palo Alto, CA</h6>
         <ul id="nav-footer">
           <li>
-            {{ if ! segment_1 }}
-            <a href="#" class="current">
-            {{ else }}
-            <a href="/">
-            {{ endif }}
-              Home
-            </a>
+            <a {{ if ! segment_1 }}href="#" class="current"{{ else }}href="/"{{ endif }}>Home</a>
           </li>
           {{ nav from="/" max_depth="1" exclude="work|blog|contact" }}
           <li>
-            <a href="{{ url }}" {{ if is_current }} class="current" {{ endif }}>
-              {{ title }}
-            </a>
+            <a href="{{ url }}" {{ if is_current }} class="current" {{ endif }}>{{ title }}</a>
           </li>
           {{ /nav }}
         </ul> {{# End Nav Footer #}}
